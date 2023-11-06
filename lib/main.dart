@@ -11,15 +11,55 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.white, // Основной цвет приложения
-        scaffoldBackgroundColor: Colors.white, // Изменение цвета фона приложения на зеленый
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
         buttonTheme: const ButtonThemeData(),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           elevation: 0,
         ),
       ),
-      home: const MyHomePage(),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Имитация асинхронной инициализации, например, загрузка данных
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const MyHomePage(),
+        ),
+      );
+    });
+
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.local_florist,
+              size: 64, // Размер иконки растения
+              color: Colors.black, // Цвет иконки
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Young Gardener',
+              style: TextStyle(
+                fontSize: 24, // Размер шрифта названия
+                color: Colors.black, // Цвет названия
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.green,
     );
   }
 }
@@ -28,10 +68,10 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
@@ -54,11 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Text(
             _titles[_currentIndex],
             style: const TextStyle(
-              color: Colors.black,
+              color: Colors.grey,
             ),
           ),
         ),
-        toolbarHeight: 100,
+        toolbarHeight : 100
       ),
       body: IndexedStack(
         index: _currentIndex,
@@ -85,8 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
             label: 'Профиль',
           ),
         ],
-        selectedItemColor: Colors.green, // Цвет активной кнопки
-        unselectedItemColor: Colors.grey, // Цвет неактивных кнопок
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
       ),
     );
   }
