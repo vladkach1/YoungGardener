@@ -13,27 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          title: Text('Главная'),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color.fromARGB(255, 168, 209, 161),Color.fromARGB(255, 136, 207, 123)], // Здесь можно задать цвета градиента
-              ),
-            ),
-          ),
-        ),
-        body: Center(
-          child: Text(
-            '',
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-      ),
+      home: MyHomePage(title: 'Главная',),
     );
   }
 }
