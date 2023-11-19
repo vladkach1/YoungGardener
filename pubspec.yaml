@@ -76,6 +76,8 @@ flutter:
     - assets\icons\plant.svg
     - assets\icons\tree.svg
     - assets\images\plant.png
+    - assets\icons\notification.svg
+    - assets\icons\plant2.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

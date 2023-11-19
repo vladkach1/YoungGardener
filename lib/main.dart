@@ -20,9 +20,16 @@ class MyApp extends StatelessWidget {
         '/plantInfo': (context) => PlantInfoScreen(),
       },
       theme: ThemeData(
+        useMaterial3: true,
         appBarTheme: AppBarTheme(
-          elevation: 0,
-        ),
+            elevation: 0,
+            color: Color(0xff8BD07F),
+            titleTextStyle: GoogleFonts.inter(
+              fontWeight: FontWeight.normal,
+              fontSize: 16,
+              color: Colors.black,
+            ),
+            foregroundColor: Colors.black),
         scaffoldBackgroundColor: Color.fromARGB(255, 237, 232, 232),
       ),
     );
@@ -72,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -93,50 +100,58 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class PlantInfoScreen extends StatelessWidget {
-  final TextStyle textDescriptionStyle = GoogleFonts.inter(fontWeight: FontWeight.bold);
+class PlantInfoScreen extends StatefulWidget {
+  @override
+  _PlantInfoScreenState createState() => _PlantInfoScreenState();
+}
+
+class _PlantInfoScreenState extends State<PlantInfoScreen> {
+  final TextStyle textCharacteristicsStyle =
+      GoogleFonts.inter(fontWeight: FontWeight.bold);
+  final TextStyle textDescriptionStyle =
+      GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 12);
+
+  bool light0 = true;
+  bool light1 = true;
+
+  final MaterialStateProperty<Icon?> thumbIcon =
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Icons.check);
+      }
+      return const Icon(Icons.close);
+    },
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: SvgPicture.asset(
-                'assets/icons/plant.svg',
-                width: 35,
-                height: 35,
-              ),
-            ),
-            SizedBox(width: 10),
-            Padding(
-              padding: const EdgeInsets.only(top: 17),
-              child: Text(
-                'Информация о растении',
-                style: GoogleFonts.inika(fontSize: 16, color: Colors.black),
-              ),
-            ),
-            SizedBox(width: 40),
-            Padding(
-              padding: const EdgeInsets.only(top: 25),
-              child: SvgPicture.asset(
-                'assets/icons/tree.svg',
-                width: 35,
-                height: 35,
-              ),
-            ),
-          ],
-        ),
-        toolbarHeight: 65,
-        shape: const RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+            bottom: Radius.circular(26),
           ),
         ),
+        toolbarHeight: 75,
+        centerTitle: true,
+        title: Container(
+          child: Row(
+            children: [
+              SvgPicture.asset('assets/icons/plant.svg'),
+              SizedBox(width: 25),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 9),
+                child: Text('Петрушка кудрявая'),
+              ),
+              SizedBox(width: 65),
+              SvgPicture.asset('assets/icons/tree.svg')
+            ],
+          ),
+          margin: EdgeInsets.only(top: 20),
+        ),
         leading: Padding(
-          padding: const EdgeInsets.only(top: 17),
+          padding: const EdgeInsets.only(top: 10),
           child: IconButton(
             icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
             onPressed: () {
@@ -144,83 +159,271 @@ class PlantInfoScreen extends StatelessWidget {
             },
           ),
         ),
-        flexibleSpace: appBarGradient(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/plant.png',
-                  width: 129,
-                  height: 132,
-                ),
-                SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Sunshine',
-                      style: textDescriptionStyle,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.wb_sunny,
-                          color: Color.fromARGB(255, 168, 209, 161),
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          '16-18°C',
-                          style: textDescriptionStyle,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Humidity',
-                      style: textDescriptionStyle,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.opacity,
-                          color: Color.fromARGB(255, 168, 209, 161),
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          '80-85%',
-                          style: textDescriptionStyle,
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      'Size',
-                      style: textDescriptionStyle,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.straighten,
-                          color: Color.fromARGB(255, 168, 209, 161),
-                        ),
-                        SizedBox(width: 15),
-                        Text(
-                          '60-90 cm',
-                          style: textDescriptionStyle,
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              ],
+        padding: const EdgeInsets.symmetric(horizontal: 19.0),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 40,
+              ),
             ),
+            PlantCharacteristics(
+                textDescriptionStyle: textCharacteristicsStyle),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 40),
+            ),
+            PlantDescription(textDescriptionStyle: textDescriptionStyle),
+            SliverToBoxAdapter(
+              child: SizedBox(height: 40),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/notification.svg'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Напоминания',
+                        style: GoogleFonts.inter(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          color: Color(0xffC7C4C4),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(height: 10,),
+                                SvgPicture.asset('assets/icons/plant2.svg'),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Петрушка кудрявая',
+                                  style: GoogleFonts.inika(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Растение нужно полить (150мл)',
+                                  style: GoogleFonts.inter(fontSize: 10),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 53),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        thumbIcon: thumbIcon,
+                        value: light1,
+                        onChanged: (bool value) {
+                          setState(() {
+                            light1 = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        margin: EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          color: Color(0xffC7C4C4),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Column(
+                              children: [
+                                SizedBox(height: 10,),
+                                SvgPicture.asset('assets/icons/plant2.svg'),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Петрушка кудрявая',
+                                  style: GoogleFonts.inika(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  'Растение нуждается в удобрении (10мл)',
+                                  style: GoogleFonts.inter(fontSize: 10),
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 10),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        thumbIcon: thumbIcon,
+                        value: light1,
+                        onChanged: (bool value) {
+                          setState(() {
+                            light1 = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class PlantDescription extends StatelessWidget {
+  const PlantDescription({
+    super.key,
+    required this.textDescriptionStyle,
+  });
+
+  final TextStyle textDescriptionStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+        child: Text(
+      'Петру́шка кудря́вая, или Петрушка курчавая, (лат. Petroselinum crispum), — одно-двухлетнее растение из семейства зонтичных (Umbelliferae). Корень  стержневой, цилиндрический. Листья темно-зеленые, сверху блестящие. Лист петрушки, в сушёном и свежем виде, — популярная кулинарная приправа.',
+      style: textDescriptionStyle,
+    ));
+  }
+}
+
+class PlantCharacteristics extends StatelessWidget {
+  const PlantCharacteristics({
+    super.key,
+    required this.textDescriptionStyle,
+  });
+
+  final TextStyle textDescriptionStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(children: [
+        Row(
+          children: [
+            Image.asset(
+              'assets/images/plant.png',
+              width: 129,
+              height: 132,
+            ),
+            SizedBox(width: 40),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Sunshine',
+                  style: textDescriptionStyle,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.wb_sunny,
+                      color: Color.fromARGB(255, 168, 209, 161),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      '16-18°C',
+                      style: textDescriptionStyle,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Humidity',
+                  style: textDescriptionStyle,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.opacity,
+                      color: Color.fromARGB(255, 168, 209, 161),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      '80-85%',
+                      style: textDescriptionStyle,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2),
+                Text(
+                  'Size',
+                  style: textDescriptionStyle,
+                ),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.straighten,
+                      color: Color.fromARGB(255, 168, 209, 161),
+                    ),
+                    SizedBox(width: 15),
+                    Text(
+                      '60-90 cm',
+                      style: textDescriptionStyle,
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      ]),
     );
   }
 }
