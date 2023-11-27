@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:young_gardener/screens/Auth.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/register.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,4 +29,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
