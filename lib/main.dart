@@ -6,6 +6,7 @@ import 'package:young_gardener/screens/Auth.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
 import 'package:young_gardener/register.dart';
 
+
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
