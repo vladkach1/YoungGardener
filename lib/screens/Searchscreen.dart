@@ -3,13 +3,6 @@ import 'package:young_gardener/screens/plant_info_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:young_gardener/main-screen.dart';
-import 'package:flutter/material.dart';
-import 'package:young_gardener/screens/Auth.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:young_gardener/screens/Searchscreen.dart';
-import 'package:young_gardener/register.dart';
 
 
 class SearchScreen extends StatefulWidget {
@@ -21,13 +14,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
   String _namePlans(int i) {
     List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
     return Plans[i];
@@ -154,8 +141,7 @@ class _SearchScreenState extends State<SearchScreen> {
               child: ElevatedButton(
                 onPressed: _GoToInfo,
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xffC7C4C4),
-                  primary: Colors.green,
+                  foregroundColor: Colors.green, backgroundColor: Color(0xffC7C4C4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

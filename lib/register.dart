@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:young_gardener/screens/plant_info_screen.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:young_gardener/main-screen.dart';
-import 'package:flutter/material.dart';
 import 'package:young_gardener/screens/Auth.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:young_gardener/screens/Searchscreen.dart';
-import 'package:young_gardener/register.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -163,20 +154,6 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    String _email;
-    String _password;
-    String _password2;
-
-    void _buttonAction() {
-      _email = _emailController.text;
-      _password = _passwordController.text;
-      _password2 = _password2Controller.text;
-
-      _emailController.clear();
-      _passwordController.clear();
-      _password2Controller.clear();
-    }
-
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -192,14 +169,16 @@ class _RegisterPageState extends State<RegisterPage> {
                   color: Colors.black,
                 ),
               )),
-          actions: [Padding(
-            padding: const EdgeInsets.only(right: 10,top: 10),
-            child: ImageIcon(
-              AssetImage('assets/icons/tree.png'),
-              color: Colors.black,
-              size: 35,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10, top: 10),
+              child: ImageIcon(
+                AssetImage('assets/icons/tree.png'),
+                color: Colors.black,
+                size: 35,
+              ),
             ),
-          ),],
+          ],
         ),
         body: Container(
             decoration: BoxDecoration(

@@ -1,32 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:young_gardener/screens/plant_info_screen.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:young_gardener/main-screen.dart';
-import 'package:flutter/material.dart';
 import 'package:young_gardener/screens/Auth.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
-import 'package:young_gardener/register.dart';
-
 
 class MainScreen extends StatefulWidget {
-  @override
   static const mainScreen = "/mainScreen";
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _counter = 0;
 
   void _GoToAuth() {
     Navigator.of(context).pushNamed(AuthPage.authScreen);
   }
+
   void _GoToInfo() {
     Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
   }
+
   void _GoToSearch() {
     Navigator.of(context).pushNamed(SearchScreen.searchScreen);
   }
@@ -63,8 +57,7 @@ class _MainScreenState extends State<MainScreen> {
               child: Row(
                 children: [
                   Container(
-                    padding:
-                    EdgeInsets.symmetric(vertical: 5, horizontal: 33),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 33),
                     margin: EdgeInsets.only(right: 20),
                     decoration: BoxDecoration(
                       color: Color(0xffC7C4C4),
@@ -97,8 +90,7 @@ class _MainScreenState extends State<MainScreen> {
                             Text(
                               'Петрушка кудрявая',
                               style: GoogleFonts.inika(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold),
+                                  fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Растение нужно полить (150мл)',
@@ -128,7 +120,8 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
-    );}
+    );
+  }
 
   Widget _remind() {
     return SliverList.builder(
@@ -152,7 +145,6 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,7 +160,6 @@ class _MainScreenState extends State<MainScreen> {
                   Color.fromARGB(255, 136, 207, 123)
                 ]),
           ),
-
           child: Padding(
             padding: const EdgeInsets.only(left: 15),
             child: Column(
@@ -265,8 +256,8 @@ class _MainScreenState extends State<MainScreen> {
               child: ElevatedButton(
                 onPressed: _GoToInfo,
                 style: TextButton.styleFrom(
+                  foregroundColor: Colors.green,
                   backgroundColor: Color(0xffC7C4C4),
-                  primary: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
