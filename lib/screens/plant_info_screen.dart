@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PlantInfoScreen extends StatefulWidget {
+  static const infoScreen = "/infoScreen";
   @override
   _PlantInfoScreenState createState() => _PlantInfoScreenState();
 }
@@ -37,6 +38,17 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromARGB(255, 168, 209, 161),
+                  Color.fromARGB(255, 136, 207, 123)
+                ]),
+          ),
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(26),

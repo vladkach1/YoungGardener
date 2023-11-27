@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/main-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/Auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/register.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
-
+  static const regScreen = "/regScreen";
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -11,6 +22,9 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
+  void _GoToAuth() {
+    Navigator.of(context).pushNamed(AuthPage.authScreen);
+  }
   @override
   Widget build(BuildContext context) {
     Widget _buttom(String text, void func()) {
@@ -183,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 90),
                 _logo(),
                 _logo1(),
-                _form('Зарегистрировать', _buttonAction),
+                _form('Зарегистрировать', _GoToAuth),
               ],
             )));
   }

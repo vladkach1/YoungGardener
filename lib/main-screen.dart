@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/main-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/Auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/register.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
+class MainScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(
-        title: 'Главная',
-      ),
-    );
-  }
+  static const mainScreen = "/mainScreen";
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _MainScreenState extends State<MainScreen> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _GoToInfo() {
+    Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
+  }
+  void _GoToSearch() {
+    Navigator.of(context).pushNamed(SearchScreen.searchScreen);
   }
 
   String _namePlans(int i) {
@@ -179,9 +172,6 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(26),
-                bottomRight: Radius.circular(26)),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -196,7 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.only(right: 10, top: 20),
             child: IconButton(
               color: Colors.black,
-              onPressed: _incrementCounter,
+              onPressed: _GoToSearch,
               icon: Icon(Icons.add),
             ),
           ),
@@ -266,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 53,
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
-                onPressed: _incrementCounter,
+                onPressed: _GoToInfo,
                 style: TextButton.styleFrom(
                   backgroundColor: Color(0xffC7C4C4),
                   primary: Colors.green,

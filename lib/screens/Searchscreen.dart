@@ -1,31 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/main-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/Auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/register.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MyHomePage(
-        title: 'Главная',
-      ),
-    );
-  }
-}
+class SearchScreen extends StatefulWidget {
+  static const searchScreen = "/searchScreen";
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SearchScreenState extends State<SearchScreen> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -36,6 +31,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String _namePlans(int i) {
     List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
     return Plans[i];
+  }
+  void _GoToInfo() {
+    Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
   }
 
 
@@ -155,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 53,
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
-                onPressed: _incrementCounter,
+                onPressed: _GoToInfo,
                 style: TextButton.styleFrom(
                   backgroundColor: Color(0xffC7C4C4),
                   primary: Colors.green,

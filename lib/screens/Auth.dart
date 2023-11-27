@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/main-screen.dart';
+import 'package:flutter/material.dart';
+import 'package:young_gardener/screens/Auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/register.dart';
+
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key? key}) : super(key: key);
-
+  static const authScreen = "/authScreen";
   @override
   _AuthPageState createState() => _AuthPageState();
 }
@@ -10,6 +22,13 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
+  void _GoToReg() {
+    Navigator.of(context).pushNamed(RegisterPage.regScreen);
+  }
+  void _GoToMain() {
+    Navigator.of(context).pushNamed(MainScreen.mainScreen);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +195,7 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(height: 90),
                 _logo(),
                 _logo1(),
-                _form('Войти', _buttonAction),
+                _form('Войти', _GoToMain),
               ],
             )));
   }
