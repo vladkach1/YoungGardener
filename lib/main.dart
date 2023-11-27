@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Your App',
       theme: ThemeData(
+        scaffoldBackgroundColor: Color(0xffEDE8E8),
         primarySwatch: Colors.green,
       ),
       initialRoute: '/',

@@ -43,7 +43,6 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
           ),
         ),
         toolbarHeight: 75,
-        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         title: Container(
           child: Row(
@@ -71,7 +70,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 19.0),
+        padding: const EdgeInsets.symmetric(horizontal: 27.0),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -128,8 +127,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                       children: [
                         Container(
                           padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                          margin: EdgeInsets.only(right: 20),
+                              EdgeInsets.only(top: 5, bottom: 5, left: 10),
                           decoration: BoxDecoration(
                             color: Color(0xffC7C4C4),
                             borderRadius: BorderRadius.circular(12),
@@ -195,7 +193,6 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                       Container(
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        margin: EdgeInsets.only(right: 20),
                         decoration: BoxDecoration(
                           color: Color(0xffC7C4C4),
                           borderRadius: BorderRadius.circular(12),

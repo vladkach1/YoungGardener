@@ -7,12 +7,13 @@ class AdditionalInformationOnWaterAndSun extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.all(40.0),
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
         child: Row(
           children: [
             Container(
               padding: EdgeInsets.symmetric(horizontal: 35, vertical: 16),
-              decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              decoration:
+                  BoxDecoration(border: Border.all(color: Colors.black)),
               child: Column(
                 children: [
                   Row(
