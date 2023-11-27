@@ -120,25 +120,24 @@ class _SearchScreenState extends State<SearchScreen> {
         toolbarHeight: 75,
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 10,top: 10),
+          child: SvgPicture.asset('assets/icons/tree.svg'),
+        )],
         title: Container(
           child: Row(
             children: [
               _input(Icon(Icons.search),'Поиск', _searchController),
-              SizedBox(width: 15,),
-              SvgPicture.asset('assets/icons/tree.svg')
             ],
           ),
-          margin: EdgeInsets.only(top: 20),
+          margin: EdgeInsets.only(top: 5),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: IconButton(
-            icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
+        leading:  IconButton(
+              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
       ),
       body: CustomScrollView(
         slivers: [

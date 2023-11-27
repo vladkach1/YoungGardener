@@ -56,28 +56,32 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         ),
         toolbarHeight: 75,
         centerTitle: true,
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 10,top: 3),
+          child: SvgPicture.asset('assets/icons/tree.svg'),
+        )],
         title: Container(
           child: Row(
             children: [
-              SvgPicture.asset('assets/icons/plant.svg'),
-              SizedBox(width: 25),
               Padding(
-                padding: const EdgeInsets.only(bottom: 9),
-                child: Text('Петрушка кудрявая'),
+                padding: const EdgeInsets.only(top: 3),
+                child: SvgPicture.asset('assets/icons/plant.svg'),
               ),
-              SizedBox(width: 35),
-              SvgPicture.asset('assets/icons/tree.svg')
+              SizedBox(width: 10),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 7),
+                  child: Text('Петрушка кудрявая',style: GoogleFonts.inder(fontSize: 20,fontWeight: FontWeight.bold,),),
+                ),
             ],
           ),
-          margin: EdgeInsets.only(top: 20),
         ),
         leading: Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(bottom: 5),
           child: IconButton(
-            icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
           ),
         ),
       ),
@@ -198,67 +202,6 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                   ),
                   SizedBox(
                     height: 20,
-                  ),
-                  //Напоминание 2
-                  Row(
-                    children: [
-                      Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Color(0xffC7C4C4),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                SvgPicture.asset('assets/icons/plant2.svg'),
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Петрушка кудрявая',
-                                  style: GoogleFonts.inika(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'Растение нуждается в удобрении (10мл)',
-                                  style: GoogleFonts.inter(fontSize: 10),
-                                )
-                              ],
-                            ),
-                            SizedBox(width: 10),
-                          ],
-                        ),
-                      ),
-                      Switch(
-                        thumbIcon: thumbIcon,
-                        value: light1,
-                        onChanged: (bool value) {
-                          setState(() {
-                            light1 = value;
-                          });
-                        },
-                      ),
-                    ],
                   ),
                 ],
               ),

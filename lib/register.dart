@@ -14,6 +14,7 @@ import 'package:young_gardener/register.dart';
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
   static const regScreen = "/regScreen";
+
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
@@ -22,9 +23,11 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
+
   void _GoToAuth() {
     Navigator.of(context).pushNamed(AuthPage.authScreen);
   }
+
   @override
   Widget build(BuildContext context) {
     Widget _buttom(String text, void func()) {
@@ -175,6 +178,29 @@ class _RegisterPageState extends State<RegisterPage> {
     }
 
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leadingWidth: 85,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: TextButton(
+              onPressed: _GoToAuth,
+              child: Text(
+                'Войти',
+                style: GoogleFonts.inder(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+              )),
+          actions: [Padding(
+            padding: const EdgeInsets.only(right: 10,top: 10),
+            child: ImageIcon(
+              AssetImage('assets/icons/tree.png'),
+              color: Colors.black,
+              size: 35,
+            ),
+          ),],
+        ),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -186,14 +212,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ])),
             child: Column(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage('assets/tree-2-svgrepo-com_1 (3).png'),
-                  ),
-                ),
                 SizedBox(height: 90),
                 _logo(),
                 _logo1(),

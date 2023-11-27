@@ -173,6 +173,29 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          leadingWidth: 190,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: TextButton(
+                  onPressed: _GoToReg,
+                  child: Text(
+                    'Зарегистрироваться',
+                    style: GoogleFonts.inder(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  )),
+          actions: [Padding(
+            padding: const EdgeInsets.only(right: 10,top: 10),
+            child: ImageIcon(
+                    AssetImage('assets/icons/tree.png'),
+                    color: Colors.black,
+                    size: 35,
+                  ),
+          ),],
+        ),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -184,14 +207,6 @@ class _AuthPageState extends State<AuthPage> {
                 ])),
             child: Column(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Image(
-                    width: 50,
-                    height: 50,
-                    image: AssetImage('assets/tree-2-svgrepo-com_1 (3).png'),
-                  ),
-                ),
                 SizedBox(height: 90),
                 _logo(),
                 _logo1(),

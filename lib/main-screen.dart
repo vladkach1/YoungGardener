@@ -21,6 +21,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _counter = 0;
 
+  void _GoToAuth() {
+    Navigator.of(context).pushNamed(AuthPage.authScreen);
+  }
   void _GoToInfo() {
     Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
   }
@@ -149,27 +152,12 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initialization();
-  }
-
-  void initialization() async {
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
-    FlutterNativeSplash.remove();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 70,
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -179,6 +167,32 @@ class _MainScreenState extends State<MainScreen> {
                   Color.fromARGB(255, 168, 209, 161),
                   Color.fromARGB(255, 136, 207, 123)
                 ]),
+          ),
+
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 90,
+                ),
+                Text(
+                  'Здравствуйте,\nUserName!',
+                  style: GoogleFonts.inika(
+                    fontSize: 30,
+                    color: Colors.black,
+                  ),
+                ),
+                Text(
+                  'Взгляните на Ваши растения',
+                  style: GoogleFonts.inder(
+                    fontSize: 16,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         actions: [
@@ -202,40 +216,33 @@ class _MainScreenState extends State<MainScreen> {
         toolbarHeight: 200,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Ваши растения',
-                style: GoogleFonts.inder(
-                  fontSize: 22,
-                  color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Ваши растения',
+                  style: GoogleFonts.inder(
+                    fontSize: 22,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Здравтсвуйте,\nUserName!',
-                style: GoogleFonts.inika(
-                  fontSize: 30,
-                  color: Colors.black,
-                ),
-              ),
-              Text(
-                'Взгляните на Ваши растения',
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 140),
+          child: TextButton(
+              onPressed: _GoToAuth,
+              child: Text(
+                'Выйти',
                 style: GoogleFonts.inder(
                   fontSize: 16,
                   color: Colors.black,
                 ),
-              ),
-            ],
-          ),
+              )),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
