@@ -12,7 +12,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   void _GoToAuth() {
     Navigator.of(context).pushNamed(AuthPage.authScreen);
   }
@@ -145,64 +144,98 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  bool isIconButtonPressed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 70,
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 168, 209, 161),
-                  Color.fromARGB(255, 136, 207, 123)
-                ]),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 90,
-                ),
-                Text(
-                  'Здравствуйте,\nUserName!',
-                  style: GoogleFonts.inika(
-                    fontSize: 30,
-                    color: Colors.black,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color.fromARGB(255, 168, 209, 161),
+                    Color.fromARGB(255, 136, 207, 123)
+                  ]),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, top: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Здравствуйте,\nUserName!',
+                    style: GoogleFonts.inika(
+                      fontSize: 30,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                Text(
-                  'Взгляните на Ваши растения',
-                  style: GoogleFonts.inder(
-                    fontSize: 16,
-                    color: Colors.black,
+                  Text(
+                    'Взгляните на Ваши растения',
+                    style: GoogleFonts.inder(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            )),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTapDown: (_) {
+                    setState(() {
+                      isIconButtonPressed = true;
+                    });
+                  },
+                  onTapUp: (_) {
+                    setState(() {
+                      isIconButtonPressed = false;
+                    });
+                  },
+                  onTapCancel: () {
+                    setState(() {
+                      isIconButtonPressed = false;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isIconButtonPressed
+                          ? Colors.green.shade800
+                          : Colors.transparent,
+                    ),
+                    child: IconButton(
+                      color: Colors.black,
+                      onPressed: _GoToSearch,
+                      icon: Icon(Icons.add),
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-        ),
-        actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 20),
-            child: IconButton(
-              color: Colors.black,
-              onPressed: _GoToSearch,
-              icon: Icon(Icons.add),
+            padding: const EdgeInsets.only(right: 20, top: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                ImageIcon(
+                  AssetImage('assets/icons/tree.png'),
+                  color: Colors.black,
+                  size: 35,
+                ),
+              ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 140, right: 10),
-            child: ImageIcon(
-              AssetImage('assets/icons/tree.png'),
-              color: Colors.black,
-              size: 35,
-            ),
-          ),
+          )
         ],
         toolbarHeight: 200,
         bottom: PreferredSize(
@@ -223,9 +256,8 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        leading: Padding(
-          padding: const EdgeInsets.only(bottom: 140),
-          child: TextButton(
+        leading: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TextButton(
               onPressed: _GoToAuth,
               child: Text(
                 'Выйти',
@@ -234,7 +266,7 @@ class _MainScreenState extends State<MainScreen> {
                   color: Colors.black,
                 ),
               )),
-        ),
+        ]),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
