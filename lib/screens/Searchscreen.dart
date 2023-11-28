@@ -4,25 +4,22 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class SearchScreen extends StatefulWidget {
   static const searchScreen = "/searchScreen";
-
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-
   String _namePlans(int i) {
     List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
     return Plans[i];
   }
+
   void _GoToInfo() {
     Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
   }
-
 
   @override
   void initState() {
@@ -31,13 +28,6 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void initialization() async {
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
     FlutterNativeSplash.remove();
   }
 
@@ -71,8 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: IconTheme(
-              data:
-              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+              data: IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
               child: icon,
             ),
           ),
@@ -107,24 +96,20 @@ class _SearchScreenState extends State<SearchScreen> {
         toolbarHeight: 75,
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
-        actions: [Padding(
-          padding: const EdgeInsets.only(right: 10,top: 10),
-          child: SvgPicture.asset('assets/icons/tree.svg'),
-        )],
-        title: Container(
-          child: Row(
-            children: [
-              _input(Icon(Icons.search),'Поиск', _searchController),
-            ],
-          ),
-          margin: EdgeInsets.only(top: 5),
+        
+        title: Row(
+          children: [
+            _input(Icon(Icons.search), 'Поиск', _searchController),
+            SvgPicture.asset('assets/icons/tree.svg')
+          ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
-        leading:  IconButton(
-              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+        leading: IconButton(
+          icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: CustomScrollView(
         slivers: [
@@ -141,7 +126,8 @@ class _SearchScreenState extends State<SearchScreen> {
               child: ElevatedButton(
                 onPressed: _GoToInfo,
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.green, backgroundColor: Color(0xffC7C4C4),
+                  foregroundColor: Colors.green,
+                  backgroundColor: Color(0xffC7C4C4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
