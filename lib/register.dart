@@ -165,7 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Text(
                 'Войти',
                 style: GoogleFonts.inder(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: Colors.black,
                 ),
               )),

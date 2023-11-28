@@ -166,7 +166,7 @@ class _AuthPageState extends State<AuthPage> {
                   child: Text(
                     'Зарегистрироваться',
                     style: GoogleFonts.inder(
-                      fontSize: 16,
+                      fontSize: 14,
                       color: Colors.black,
                     ),
                   )),

@@ -150,7 +150,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 70,
+        leadingWidth: 90,
         flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -256,17 +256,20 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        leading: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          TextButton(
-              onPressed: _GoToAuth,
-              child: Text(
-                'Выйти',
-                style: GoogleFonts.inder(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
-              )),
-        ]),
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextButton(
+                onPressed: _GoToAuth,
+                child: Text(
+                  'Выйти',
+                  style: GoogleFonts.inder(
+                    fontSize: 14,
+                    color: Colors.black,
+                  ),
+                )),
+          ],
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(30),
