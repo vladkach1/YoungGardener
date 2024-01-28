@@ -40,6 +40,8 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(
+        bottom: Radius.circular(25),),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -56,7 +58,8 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         ),
         toolbarHeight: 75,
         centerTitle: true,
-        actions: [Padding(
+        actions: [
+          Padding(
           padding: const EdgeInsets.only(right: 10,top: 3),
           child: SvgPicture.asset('assets/icons/tree.svg'),
         )],
@@ -78,7 +81,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: IconButton(
-              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
+              icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },

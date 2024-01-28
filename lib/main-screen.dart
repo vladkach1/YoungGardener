@@ -13,15 +13,15 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   void _GoToAuth() {
-    Navigator.of(context).pushNamed(AuthPage.authScreen);
+    Navigator.of(context).pushNamed('/');
   }
 
   void _GoToInfo() {
-    Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
+    Navigator.of(context).pushNamed('/Info');
   }
 
   void _GoToSearch() {
-    Navigator.of(context).pushNamed(SearchScreen.searchScreen);
+    Navigator.of(context).pushNamed('/Search');
   }
 
   String _namePlans(int i) {
@@ -153,6 +153,9 @@ class _MainScreenState extends State<MainScreen> {
         leadingWidth: 90,
         flexibleSpace: Container(
             decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(25),
+                ),
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -169,27 +172,23 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   Text(
                     'Здравствуйте,\nUserName!',
-                    style: GoogleFonts.inika(
-                      fontSize: 30,
-                      color: Colors.black,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text(
                     'Взгляните на Ваши растения',
-                    style: GoogleFonts.inder(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),
             )),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 10, top: 40),
+            padding: const EdgeInsets.only(right: 10,top: 3),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SvgPicture.asset('assets/icons/tree.svg'),
+                SizedBox(height: 40,),
                 GestureDetector(
                   onTapDown: (_) {
                     setState(() {
@@ -223,20 +222,21 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 20, top: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                ImageIcon(
-                  AssetImage('assets/icons/tree.png'),
-                  color: Colors.black,
-                  size: 35,
-                ),
-              ],
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 20, top: 15),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.end,
+          //     children: [
+          //       ImageIcon(
+          //         AssetImage('assets/icons/tree.png'),
+          //         color: Colors.black,
+          //         size: 35,
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
+
         toolbarHeight: 200,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
@@ -259,21 +259,11 @@ class _MainScreenState extends State<MainScreen> {
         leading: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            TextButton(
-                onPressed: _GoToAuth,
-                child: Text(
-                  'Выйти',
-                  style: GoogleFonts.inder(
-                    fontSize: 14,
-                    color: Colors.black,
-                  ),
-                )),
+            IconButton(
+              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
+              onPressed: _GoToAuth,
+            )
           ],
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
-          ),
         ),
       ),
       body: CustomScrollView(
@@ -290,21 +280,11 @@ class _MainScreenState extends State<MainScreen> {
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
                 onPressed: _GoToInfo,
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                  backgroundColor: Color(0xffC7C4C4),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
                     (index + 1).toString() + ' ' + _namePlans(index),
-                    style: GoogleFonts.inder(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),

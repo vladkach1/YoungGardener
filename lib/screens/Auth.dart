@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:young_gardener/main-screen.dart';
 import 'package:young_gardener/register.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 class AuthPage extends StatefulWidget {
@@ -26,19 +27,9 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     Widget _buttom(String text, void func()) {
       return ElevatedButton(
-        style: ButtonStyle(
-          overlayColor:
-              MaterialStateProperty.all(Color.fromARGB(255, 248, 248, 248)),
-          backgroundColor: MaterialStateProperty.all(
-              const Color.fromARGB(255, 211, 211, 211)),
-        ),
         child: Text(
           text,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 0, 0, 0),
-              fontSize: 18,
-              fontFamily: 'inder'),
+          style: Theme.of(context).textTheme.displayMedium,
         ),
         onPressed: () {
           func();
@@ -51,12 +42,18 @@ class _AuthPageState extends State<AuthPage> {
       return Container(
         height: 50,
         width: 300,
-        color: const Color.fromARGB(255, 211, 211, 211),
         padding: EdgeInsets.zero,
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 211, 211, 211),
+          borderRadius: BorderRadius.all(
+            Radius.circular(25),
+          ),
+        ),
         child: TextField(
+          cursorColor: Colors.black,
+          cursorWidth: 1,
           controller: controller,
           obscureText: obsecure,
-          style: TextStyle(fontSize: 20, color: Colors.black),
           decoration: InputDecoration(
             hintStyle: TextStyle(
               fontWeight: FontWeight.bold,
@@ -64,15 +61,8 @@ class _AuthPageState extends State<AuthPage> {
               color: Color.fromARGB(77, 0, 0, 0),
               fontFamily: 'Inder',
             ),
+            border: InputBorder.none,
             hintText: hint,
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: const Color.fromARGB(255, 53, 53, 53), width: 3),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: const Color.fromARGB(255, 53, 53, 53), width: 1),
-            ),
             prefixIcon: Padding(
               padding: EdgeInsets.only(left: 10, right: 10),
               child: IconTheme(
@@ -114,42 +104,25 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     ;
-
-    _logo1() {
-      return Padding(
-        padding: EdgeInsets.only(bottom: 10, right: 25),
-        child: Container(
-          child: Align(
-            child: Text(
-              'войдите, чтобы продолжить',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontFamily: 'Inder',
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
     Widget _logo() {
       return Padding(
         padding: EdgeInsets.only(top: 50),
         child: Container(
-          child: Align(
-            child: Text(
-              'Добро пожаловать',
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontFamily: 'Inder',
+          child: Center(
+            child: Column(
+            children: [
+              Text(
+                'Добро пожаловать',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-          ),
+              Text(
+                'войдите, чтобы продолжить',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
         ),
+          ),
+      ),
       );
     }
 
@@ -170,14 +143,11 @@ class _AuthPageState extends State<AuthPage> {
                       color: Colors.black,
                     ),
                   )),
-          actions: [Padding(
-            padding: const EdgeInsets.only(right: 10,top: 10),
-            child: ImageIcon(
-                    AssetImage('assets/icons/tree.png'),
-                    color: Colors.black,
-                    size: 35,
-                  ),
-          ),],
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10,top: 3),
+                child: SvgPicture.asset('assets/icons/tree.svg'),
+              )]
         ),
         body: Container(
             decoration: BoxDecoration(
@@ -192,7 +162,6 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 SizedBox(height: 90),
                 _logo(),
-                _logo1(),
                 _form('Войти', _GoToMain),
               ],
             )));

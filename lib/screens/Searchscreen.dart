@@ -36,12 +36,18 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _input(Icon icon, String hint, TextEditingController controller) {
     return Container(
       height: 50,
-      width: 260,
-      color: const Color.fromARGB(255, 211, 211, 211),
+      width: 286,
       padding: EdgeInsets.zero,
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 211, 211, 211),
+        borderRadius: BorderRadius.all(
+          Radius.circular(25),
+        ),
+      ),
       child: TextField(
+        cursorColor: Colors.black,
+        cursorWidth: 1,
         controller: controller,
-        style: TextStyle(fontSize: 20, color: Colors.black),
         decoration: InputDecoration(
           hintStyle: TextStyle(
             fontWeight: FontWeight.bold,
@@ -49,19 +55,13 @@ class _SearchScreenState extends State<SearchScreen> {
             color: Color.fromARGB(77, 0, 0, 0),
             fontFamily: 'Inder',
           ),
+          border: InputBorder.none,
           hintText: hint,
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: const Color.fromARGB(255, 53, 53, 53), width: 3),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: const Color.fromARGB(255, 53, 53, 53), width: 1),
-          ),
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: IconTheme(
-              data: IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+              data:
+              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
               child: icon,
             ),
           ),
@@ -70,20 +70,22 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(26),
-          ),
-        ),
+        leadingWidth: 30,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10,top: 3),
+              child: SvgPicture.asset('assets/icons/tree.svg'),
+            )],
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(26),
-                bottomRight: Radius.circular(26)),
+            borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(25),
+        ),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -94,21 +96,22 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
         toolbarHeight: 75,
-        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         
         title: Row(
           children: [
             _input(Icon(Icons.search), 'Поиск', _searchController),
-            SvgPicture.asset('assets/icons/tree.svg')
           ],
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
-        leading: IconButton(
-          icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 7),
+          child: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
       ),
       body: CustomScrollView(
@@ -125,21 +128,11 @@ class _SearchScreenState extends State<SearchScreen> {
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
                 onPressed: _GoToInfo,
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.green,
-                  backgroundColor: Color(0xffC7C4C4),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
                     _namePlans(index),
-                    style: GoogleFonts.inder(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),
