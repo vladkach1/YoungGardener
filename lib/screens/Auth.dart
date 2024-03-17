@@ -17,7 +17,7 @@ class _AuthPageState extends State<AuthPage> {
   TextEditingController _passwordController = TextEditingController();
 
   void _GoToReg() {
-    Navigator.of(context).pushNamed(RegisterPage.regScreen);
+    Navigator.of(context).pushNamed('/Register');
   }
 
   void _GoToMain() {
