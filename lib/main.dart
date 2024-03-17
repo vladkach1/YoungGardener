@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         '/Info': (context) => PlantInfoScreen(),
         '/Search': (context) => SearchScreen(),
         '/': (context) => AuthPage(),
-        '/mainScreen': (context) => MainScreen(), // Изменили на "/mainScreen"
+        '/mainScreen': (context) => MainScreen(),
         '/Register': (context) => RegisterPage()
       },
     );

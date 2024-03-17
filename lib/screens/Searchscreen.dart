@@ -18,7 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _GoToInfo() {
-    Navigator.of(context).pushNamed(PlantInfoScreen.infoScreen);
+    Navigator.of(context).pushNamed('/Info');
   }
 
   @override
