@@ -25,26 +25,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: TextButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            foregroundColor: Colors.green,
+            backgroundColor: Color.fromARGB(255, 211, 211, 211),
           ),
-          foregroundColor: Colors.green,
-          backgroundColor: Color.fromARGB(255, 211, 211, 211),
-        ),),
+        ),
         textTheme: TextTheme(
-            titleLarge: GoogleFonts.inika(
+          titleLarge: GoogleFonts.inika(
             fontSize: 30,
             color: Colors.black,
-        ),
+          ),
           titleMedium: GoogleFonts.inder(
             fontSize: 16,
             color: Colors.black,
           ),
-            bodyMedium: GoogleFonts.inder(
-              fontSize: 18,
-              color: Colors.black,
-            ),
-
+          bodyMedium: GoogleFonts.inder(
+            fontSize: 18,
+            color: Colors.black,
+          ),
           displayMedium: GoogleFonts.inder(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -56,17 +56,15 @@ class MyApp extends StatelessWidget {
           elevation: 0,
           backgroundColor: Colors.transparent,
           iconTheme: IconThemeData(color: Colors.black),
-      ),
+        ),
       ),
       routes: {
-        '/Info' : (context)=>PlantInfoScreen(),
-        '/Search' : (context)=>SearchScreen(),
-        '/' : (context)=>AuthPage(),
-        '/Main' : (context)=>MainScreen(),
-        '/Register' : (context)=>RegisterPage()
-        },
+        '/Info': (context) => PlantInfoScreen(),
+        '/Search': (context) => SearchScreen(),
+        '/': (context) => AuthPage(),
+        '/mainScreen': (context) => MainScreen(), // Изменили на "/mainScreen"
+        '/Register': (context) => RegisterPage()
+      },
     );
   }
-
-  
 }

@@ -19,9 +19,11 @@ class _AuthPageState extends State<AuthPage> {
   void _GoToReg() {
     Navigator.of(context).pushNamed(RegisterPage.regScreen);
   }
+
   void _GoToMain() {
-    Navigator.of(context).pushNamed(MainScreen.mainScreen);
+  Navigator.of(context).pushNamed('/mainScreen');
   }
+
 
   @override
   Widget build(BuildContext context) {
