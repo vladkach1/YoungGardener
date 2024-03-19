@@ -17,7 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _password2Controller = TextEditingController();
 
   void _GoToAuth() {
-    Navigator.of(context).pushNamed('/');
+    Navigator.of(context).pushNamed('/mainScreen');
   }
 
   @override

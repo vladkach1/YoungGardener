@@ -24,6 +24,10 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/Search');
   }
 
+  void _AddPlant() {
+    // TO DO
+  }
+
   String _namePlans(int i) {
     List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
     return Plans[i];
@@ -150,105 +154,38 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 90,
         flexibleSpace: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(25),
-                ),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.fromARGB(255, 168, 209, 161),
-                    Color.fromARGB(255, 136, 207, 123)
-                  ]),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(25),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, top: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Здравствуйте,\nUserName!',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  Text(
-                    'Взгляните на Ваши растения',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-              ),
-            )),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10,top: 3),
-            child: Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/icons/tree.svg'),
-                SizedBox(height: 40,),
-                GestureDetector(
-                  onTapDown: (_) {
-                    setState(() {
-                      isIconButtonPressed = true;
-                    });
-                  },
-                  onTapUp: (_) {
-                    setState(() {
-                      isIconButtonPressed = false;
-                    });
-                  },
-                  onTapCancel: () {
-                    setState(() {
-                      isIconButtonPressed = false;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isIconButtonPressed
-                          ? Colors.green.shade800
-                          : Colors.transparent,
-                    ),
-                    child: IconButton(
-                      color: Colors.black,
-                      onPressed: _GoToSearch,
-                      icon: Icon(Icons.add),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromARGB(255, 168, 209, 161),
+                  Color.fromARGB(255, 136, 207, 123)
+                ]),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 20, top: 15),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.end,
-          //     children: [
-          //       ImageIcon(
-          //         AssetImage('assets/icons/tree.png'),
-          //         color: Colors.black,
-          //         size: 35,
-          //       ),
-          //     ],
-          //   ),
-          // )
-        ],
-
-        toolbarHeight: 200,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(26),
+          ),
+        ),
+        toolbarHeight: 75,
+        centerTitle: true,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
+          preferredSize: Size.fromHeight(120.0),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            padding: const EdgeInsets.only(bottom: 60),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Ваши растения',
+                  'Здравствуйте,\nUserName!',
                   style: GoogleFonts.inder(
-                    fontSize: 22,
+                    fontSize: 27,
                     color: Colors.black,
                   ),
                 ),
@@ -256,18 +193,61 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            IconButton(
-              icon: SvgPicture.asset('assets/icons/back_arrow.svg'),
-              onPressed: _GoToAuth,
-            )
-          ],
+        leading: Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _AddPlant,
+        backgroundColor: Colors.green,
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.black,
         ),
       ),
       body: CustomScrollView(
         slivers: [
+          SliverToBoxAdapter(
+            child: Container(
+              height: 53,
+              margin: EdgeInsets.only(left: 75, top: 10, right: 75),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(
+                    Icons.drag_handle_rounded,
+                    color: Colors.black,
+                  ),
+                  Text(
+                    'Ваши растения',
+                    style: GoogleFonts.inika(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(width: 25),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Divider(
+                color: Colors.grey,
+                thickness: 0.6,
+                height: 0.8,
+              ),
+            ),
+          ),
           SliverToBoxAdapter(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -284,7 +264,11 @@ class _MainScreenState extends State<MainScreen> {
                   alignment: Alignment(-1, 0),
                   child: Text(
                     (index + 1).toString() + ' ' + _namePlans(index),
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: GoogleFonts.inder(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
