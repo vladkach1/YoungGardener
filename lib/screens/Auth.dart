@@ -4,7 +4,6 @@ import 'package:young_gardener/main-screen.dart';
 import 'package:young_gardener/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class AuthPage extends StatefulWidget {
   AuthPage({Key? key}) : super(key: key);
   static const authScreen = "/authScreen";
@@ -21,9 +20,8 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _GoToMain() {
-  Navigator.of(context).pushNamed('/mainScreen');
+    Navigator.of(context).pushNamed('/mainScreen');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,31 +77,63 @@ class _AuthPageState extends State<AuthPage> {
     }
 
     Widget _form(String label, void func()) {
-      return Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(bottom: 25, top: 50),
-                child: _input(Icon(Icons.email), "Введите имя пользователя",
-                    _emailController, false)),
-            Padding(
-                padding: EdgeInsets.only(bottom: 25),
-                child: _input(Icon(Icons.lock), "Введите пароль",
-                    _passwordController, true)),
-            SizedBox(
-              height: 30,
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  height: 40,
-                  width: 300,
-                  child: _buttom(label, func),
-                ))
-          ],
+  return Container(
+    child: Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(bottom: 25, top: 50),
+          child: _input(
+              Icon(Icons.email),
+              "Введите имя пользователя",
+              _emailController,
+              false),
         ),
-      );
-    }
+        Padding(
+          padding: EdgeInsets.only(bottom: 25),
+          child: _input(
+              Icon(Icons.lock),
+              "Введите пароль",
+              _passwordController,
+              true),
+        ),
+        SizedBox(height: 30),
+        Padding(
+          padding: EdgeInsets.only(left: 20, right: 20),
+          child: Container(
+            height: 40,
+            width: 300,
+            child: _buttom(label, func),
+          ),
+        ),
+        SizedBox(height: 10),
+        GestureDetector( // Создание текстовой ссылки для перехода на экран регистрации
+          onTap: () {
+            Navigator.of(context).pushNamed('/Register');
+          },
+          child: Column(
+            children: [
+              SizedBox(height: 10,),
+              Text(
+                "У вас нет аккаунта?",
+                style: TextStyle(
+                  color: Colors.black, // Цвет ссылки
+                ),
+              ),
+              Text(
+                "Зарегистрироваться",
+                style: TextStyle(
+                  color: Colors.blue, // Цвет ссылки
+                  decoration: TextDecoration.underline, // Подчеркивание текста
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
     ;
     Widget _logo() {
@@ -112,45 +142,35 @@ class _AuthPageState extends State<AuthPage> {
         child: Container(
           child: Center(
             child: Column(
-            children: [
-              Text(
-                'Добро пожаловать',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'войдите, чтобы продолжить',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ],
-        ),
+              children: [
+                Text(
+                  'Добро пожаловать',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  'войдите, чтобы продолжить',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ],
+            ),
           ),
-      ),
+        ),
       );
     }
-
-
 
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          leadingWidth: 190,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: TextButton(
-                  onPressed: _GoToReg,
-                  child: Text(
-                    'Зарегистрироваться',
-                    style: GoogleFonts.inder(
-                      fontSize: 14,
-                      color: Colors.black,
-                    ),
-                  )),
+            leadingWidth: 190,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            leading: SizedBox(width: 20,),
             actions: [
               Padding(
-                padding: const EdgeInsets.only(right: 10,top: 3),
+                padding: const EdgeInsets.only(right: 10, top: 3),
                 child: SvgPicture.asset('assets/icons/tree.svg'),
-              )]
-        ),
+              )
+            ]),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -165,6 +185,7 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(height: 90),
                 _logo(),
                 _form('Войти', _GoToMain),
+
               ],
             )));
   }

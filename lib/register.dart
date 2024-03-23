@@ -64,7 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: EdgeInsets.only(left: 10, right: 10),
               child: IconTheme(
                 data:
-                IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                    IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
                 child: icon,
               ),
             ),
@@ -78,33 +78,61 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Column(
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.only(bottom: 25, top: 50),
-                child: _input(Icon(Icons.email), "Введите имя пользователя",
-                    _emailController, false)),
-            Padding(
-                padding: EdgeInsets.only(bottom: 25),
-                child: _input(Icon(Icons.lock), "Введите пароль",
-                    _passwordController, true)),
-            Padding(
-                padding: EdgeInsets.only(bottom: 25),
-                child: _input(Icon(Icons.lock), "Повторите пароль",
-                    _password2Controller, true)),
-            SizedBox(
-              height: 30,
+              padding: EdgeInsets.only(bottom: 25, top: 50),
+              child: _input(Icon(Icons.email), "Введите имя пользователя",
+                  _emailController, false),
             ),
             Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  height: 40,
-                  width: 300,
-                  child: _buttom(label, func),
-                ))
+              padding: EdgeInsets.only(bottom: 25),
+              child: _input(Icon(Icons.lock), "Введите пароль",
+                  _passwordController, true),
+            ),
+            Padding(
+              padding: EdgeInsets.only(bottom: 25),
+              child: _input(Icon(Icons.lock), "Повторите пароль",
+                  _password2Controller, true),
+            ),
+            SizedBox(height: 30),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Container(
+                height: 40,
+                width: 300,
+                child: _buttom(label, func),
+              ),
+            ),
+            SizedBox(height: 10), // Добавленный отступ
+            GestureDetector(
+              // Создание текстовой ссылки для перехода на экран аутентификации
+              onTap: () {
+                Navigator.of(context).pushNamed('/');
+              },
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "У вас уже есть аккаунт?",
+                    style: TextStyle(
+                      color: Colors.black, // Цвет ссылки
+                    ),
+                  ),
+                  Text(
+                    "Войти",
+                    style: TextStyle(
+                      color: Colors.blue, // Цвет ссылки
+                      decoration:
+                          TextDecoration.underline, // Подчеркивание текста
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       );
     }
-
-    ;
 
     Widget _logo() {
       return Padding(
@@ -134,20 +162,13 @@ class _RegisterPageState extends State<RegisterPage> {
           leadingWidth: 85,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          leading: TextButton(
-              onPressed: _GoToAuth,
-              child: Text(
-                'Войти',
-                style: GoogleFonts.inder(
-                  fontSize: 14,
-                  color: Colors.black,
-                ),
-              )),
+          leading: SizedBox(width: 20,),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 10,top: 3),
+              padding: const EdgeInsets.only(right: 10, top: 3),
               child: SvgPicture.asset('assets/icons/tree.svg'),
-            )],
+            )
+          ],
         ),
         body: Container(
             decoration: BoxDecoration(
