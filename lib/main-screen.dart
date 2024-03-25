@@ -266,6 +266,19 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
       ),
+<<<<<<< Updated upstream
+=======
+      floatingActionButton: FloatingActionButton(
+        onPressed: _AddPlant,
+        backgroundColor: Color.fromARGB(255, 168, 209, 161),
+        child: Icon(
+          Icons.add,
+          size: 30,
+          color: Colors.black,
+        ),
+      ),
+      backgroundColor: Color.fromARGB(255, 236, 233, 233),
+>>>>>>> Stashed changes
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
