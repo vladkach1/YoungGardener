@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:young_gardener/screens/plant_info_screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -18,6 +16,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _GoToInfo() {
+    Navigator.of(context).pushNamed('/Info');
+  }
+
+  void _GoToAddNewPlant(){
     Navigator.of(context).pushNamed('/Info');
   }
 
@@ -114,6 +116,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
+      backgroundColor: Color.fromARGB(255, 236, 233, 233),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -127,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 53,
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
-                onPressed: _GoToInfo,
+                onPressed: _GoToAddNewPlant,
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(

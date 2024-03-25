@@ -15,7 +15,7 @@ class PlantInfoScreen extends StatefulWidget {
 
 class _PlantInfoScreenState extends State<PlantInfoScreen> {
   final TextStyle textCharacteristicsStyle =
-      GoogleFonts.inter(fontWeight: FontWeight.bold);
+      GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 14);
   final TextStyle textDescriptionStyle =
       GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 12);
 
@@ -40,8 +40,9 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-        bottom: Radius.circular(25),),
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(25),
+            ),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -60,9 +61,10 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         centerTitle: true,
         actions: [
           Padding(
-          padding: const EdgeInsets.only(right: 10,top: 3),
-          child: SvgPicture.asset('assets/icons/tree.svg'),
-        )],
+            padding: const EdgeInsets.only(right: 10, top: 3),
+            child: SvgPicture.asset('assets/icons/tree.svg'),
+          )
+        ],
         title: Container(
           child: Row(
             children: [
@@ -71,23 +73,30 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                 child: SvgPicture.asset('assets/icons/plant.svg'),
               ),
               SizedBox(width: 10),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 7),
-                  child: Text('Петрушка кудрявая',style: GoogleFonts.inder(fontSize: 20,fontWeight: FontWeight.bold,),),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 7),
+                child: Text(
+                  'Петрушка кудрявая',
+                  style: GoogleFonts.inder(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+              ),
             ],
           ),
         ),
         leading: Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),
+      backgroundColor: Color.fromARGB(255, 236, 233, 233),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 27.0),
         child: CustomScrollView(
@@ -99,13 +108,9 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
             ),
             PlantCharacteristics(
                 textDescriptionStyle: textCharacteristicsStyle),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 40),
-            ),
+            SliverToBoxAdapter(child: SizedBox(height: 40)),
             PlantDescription(textDescriptionStyle: textDescriptionStyle),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 40),
-            ),
+            SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Column(
                 children: [
@@ -145,8 +150,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                     child: Row(
                       children: [
                         Container(
-                          padding:
-                              EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
                           decoration: BoxDecoration(
                             color: Color(0xffC7C4C4),
                             borderRadius: BorderRadius.circular(12),
@@ -209,11 +213,15 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                 ],
               ),
             ),
-            AdditionalInformationOnWaterAndSun(),
-            BottomButtons(),
-            SliverToBoxAdapter(
-              child: SizedBox(height: 45),
+            AdditionalInformationOnWaterAndSun(
+              waterAmount: 150,
+              sunshine: 16,
+              humidity: "80-85%",
+              size: "60-90%",
             ),
+            SliverToBoxAdapter(child: SizedBox(height: 10)),
+            BottomButtons(),
+            SliverToBoxAdapter(child: SizedBox(height: 45)),
           ],
         ),
       ),

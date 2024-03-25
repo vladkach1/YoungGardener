@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:young_gardener/main-screen.dart';
-import 'package:young_gardener/register.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AuthPage extends StatefulWidget {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:young_gardener/screens/plant_info_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:young_gardener/screens/Auth.dart';
-import 'package:young_gardener/screens/Searchscreen.dart';
+
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
@@ -25,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _AddPlant() {
-    // TO DO
+    Navigator.of(context).pushNamed('/Search');
   }
 
   String _namePlans(int i) {
@@ -212,6 +210,7 @@ class _MainScreenState extends State<MainScreen> {
           color: Colors.black,
         ),
       ),
+      backgroundColor: Color.fromARGB(255, 236, 233, 233),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(

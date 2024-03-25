@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:young_gardener/screens/Auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterPage extends StatefulWidget {
