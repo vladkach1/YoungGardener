@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BottomButtons extends StatelessWidget {
-  const BottomButtons({Key? key}) : super(key: key);
+class BottomButtons2 extends StatelessWidget {
+  const BottomButtons2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +14,14 @@ class BottomButtons extends StatelessWidget {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                 Color(0xff4F8247), // Цвет фона кнопки
- // Цвет фона кнопки
+                  Color.fromARGB(255, 41, 161, 241), // Цвет фона кнопки
                 ),
               ),
               onPressed: () {
                 // Действия для первой кнопки
               },
               child: Text(
-                'Уже есть',
+                'Добавить',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,
@@ -33,8 +32,7 @@ class BottomButtons extends StatelessWidget {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                  Color(0xffFA7171), // Цвет фона кнопки
- // Цвет фона кнопки
+                  Color.fromARGB(255, 133, 133, 133), // Цвет фона кнопки
                 ),
               ),
               onPressed: () {

@@ -11,17 +11,19 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String _namePlans(int i) {
-    List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
+    List<String> Plans = [' Петрушка кудрявая', ' Монстера деликатесная'];
     return Plans[i];
   }
 
-  void _GoToInfo() {
-    Navigator.of(context).pushNamed('/Info');
-  }
+   void _GoToInfo() {
+     Navigator.of(context).pushNamed('/Info');
+ }
 
   void _GoToAddNewPlant(){
-    Navigator.of(context).pushNamed('/Info');
+    Navigator.of(context).pushNamed('/Info2');
   }
+
+
 
   @override
   void initState() {

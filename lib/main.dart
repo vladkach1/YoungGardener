@@ -6,6 +6,7 @@ import 'package:young_gardener/main-screen.dart';
 import 'package:young_gardener/screens/Auth.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
 import 'package:young_gardener/register.dart';
+import 'package:young_gardener/screens/plant_info_screen2.dart';
 
 //СДЕЛАЙ В ИНФЕ АППБАР МЕНЬШЕ И СО СТРОКОЙ ПОИСКА РАЗБЕРИСЬ(ТОЖЕ САМОЕ СКОРЕЕ ВСЕГО НАДО СДЕЛАТЬ В ИНФЕ С ПЕТРУХОЙ)
 //СДЕЛАТЬ ЧТОБЫ В СТРОКАХ ВВОДА ТЕКСТ НЕ ДОХОДИЛ ДО КОНЦА КОНТЕЙНЕРА
@@ -63,7 +64,8 @@ class MyApp extends StatelessWidget {
         '/Search': (context) => SearchScreen(),
         '/': (context) => AuthPage(),
         '/mainScreen': (context) => MainScreen(),
-        '/Register': (context) => RegisterPage()
+        '/Register': (context) => RegisterPage(),
+        '/Info2': (context)=> PlantInfoScreen2()
       },
     );
   }

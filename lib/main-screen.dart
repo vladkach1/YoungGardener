@@ -201,9 +201,10 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _AddPlant,
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromARGB(255, 168, 209, 161),
         child: Icon(
           Icons.add,
           size: 30,
