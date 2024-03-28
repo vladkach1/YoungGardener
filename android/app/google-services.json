@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953471892771",
+    "project_id": "yg-app-66721",
+    "storage_bucket": "yg-app-66721.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953471892771:android:6fe90c4ddc6d29e0646096",
+        "android_client_info": {
+          "package_name": "com.example.young_gardener"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdz1VEnCd3q9f0j0PZEur5EmOkeTapuws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:young_gardener/services/authindication.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key? key}) : super(key: key);
@@ -9,6 +10,9 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+
+  final AuthService _auth = AuthService();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -28,8 +32,9 @@ class _AuthPageState extends State<AuthPage> {
           text,
           style: Theme.of(context).textTheme.displayMedium,
         ),
-        onPressed: () {
-          func();
+        onPressed: () async {
+          dynamic result = await _auth.sing();
+          //func();
         },
       );
     }
