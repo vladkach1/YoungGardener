@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:young_gardener/screens/plant_info_screen.dart';
@@ -75,7 +74,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/Info': (context) => PlantInfoScreen(),
           '/Search': (context) => SearchScreen(),
-          '/': (context) => AuthPage(),
+          '/': (context) => Wrapper(),
+          '/Auth': (context) => AuthPage(),
           '/mainScreen': (context) => MainScreen(),
           '/Register': (context) => RegisterPage(),
           '/Info2': (context)=> PlantInfoScreen2()

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
+import 'services/authindication.dart';
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
@@ -10,6 +10,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  final AuthService _auth = AuthService();
+
   void _GoToAuth() {
     Navigator.of(context).pushNamed('/');
   }
@@ -195,8 +198,9 @@ class _MainScreenState extends State<MainScreen> {
           padding: const EdgeInsets.only(bottom: 5),
           child: IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pop(context);
+            onPressed: () async {
+              //Navigator.pop(context);
+              await _auth.signOut();
             },
           ),
         ),

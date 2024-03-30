@@ -13,6 +13,9 @@ class _AuthPageState extends State<AuthPage> {
 
   final AuthService _auth = AuthService();
 
+  String email = '';
+  String password = '';
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -26,19 +29,7 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buttom(String text, void func()) {
-      return ElevatedButton(
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.displayMedium,
-        ),
-        onPressed: () async {
-          dynamic result = await _auth.sing();
-          //func();
-        },
-      );
-    }
-
+/*
     Widget _input(Icon icon, String hint, TextEditingController controller,
         bool obsecure) {
       return Container(
@@ -104,7 +95,7 @@ class _AuthPageState extends State<AuthPage> {
           child: Container(
             height: 40,
             width: 300,
-            child: _buttom(label, func),
+            //child: _buttom(label, func),
           ),
         ),
         SizedBox(height: 10),
@@ -135,7 +126,7 @@ class _AuthPageState extends State<AuthPage> {
     ),
   );
 }
-
+*/
 
     ;
     Widget _logo() {
@@ -186,8 +177,122 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 SizedBox(height: 90),
                 _logo(),
-                _form('Войти', _GoToMain),
-
+                Form(child: Column(
+                  children: [
+                    SizedBox(height: 50,),
+                  Container(
+                  height: 50,
+                  width: 300,
+                  padding: EdgeInsets.zero,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 211, 211, 211),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25),
+                    ),
+                  ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        cursorWidth: 1,
+                        controller: _emailController,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color.fromARGB(77, 0, 0, 0),
+                            fontFamily: 'Inder',
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Введите имя пользователя",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: IconTheme(
+                              data:
+                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                              child: Icon(Icons.email),
+                            ),
+                          ),
+                        ),
+                      onChanged: (val) {
+                          setState(() => email = val);
+                                      },
+                                      ),
+                  ),
+                    SizedBox(height: 20,),
+                    Container(
+                      height: 50,
+                      width: 300,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 211, 211, 211),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        cursorWidth: 1,
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color.fromARGB(77, 0, 0, 0),
+                            fontFamily: 'Inder',
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Введите пароль",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: IconTheme(
+                              data:
+                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                              child: Icon(Icons.lock),
+                            ),
+                          ),
+                        ),
+                        onChanged: (val) {
+                          setState(() => password = val);
+                      },
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                  ElevatedButton(
+                    child: Text(
+                      'Войти',
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                    onPressed: () async {
+                      //dynamic result = await _auth.sing();
+                    },
+                  )
+                  ],
+                )),
+                SizedBox(height: 10),
+                GestureDetector( // Создание текстовой ссылки для перехода на экран регистрации
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/Register');
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(height: 10,),
+                      Text(
+                        "У вас нет аккаунта?",
+                        style: TextStyle(
+                          color: Colors.black, // Цвет ссылки
+                        ),
+                      ),
+                      Text(
+                        "Зарегистрироваться",
+                        style: TextStyle(
+                          color: Colors.blue, // Цвет ссылки
+                          decoration: TextDecoration.underline, // Подчеркивание текста
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             )));
   }

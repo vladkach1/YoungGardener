@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'services/authindication.dart';
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -10,6 +11,15 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+
+  String email = '';
+  String password = '';
+  String password1 = '';
+  String error = '';
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
@@ -20,117 +30,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buttom(String text, void func()) {
-      return ElevatedButton(
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.displayMedium,
-        ),
-        onPressed: () {
-          func();
-        },
-      );
-    }
-
-    Widget _input(Icon icon, String hint, TextEditingController controller,
-        bool obsecure) {
-      return Container(
-        height: 50,
-        width: 300,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 211, 211, 211),
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
-          ),
-        ),
-        child: TextField(
-          cursorColor: Colors.black,
-          cursorWidth: 1,
-          controller: controller,
-          obscureText: obsecure,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: Color.fromARGB(77, 0, 0, 0),
-              fontFamily: 'Inder',
-            ),
-            border: InputBorder.none,
-            hintText: hint,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: IconTheme(
-                data:
-                    IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
-                child: icon,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget _form(String label, void func()) {
-      return Container(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(bottom: 25, top: 50),
-              child: _input(Icon(Icons.email), "Введите имя пользователя",
-                  _emailController, false),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 25),
-              child: _input(Icon(Icons.lock), "Введите пароль",
-                  _passwordController, true),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 25),
-              child: _input(Icon(Icons.lock), "Повторите пароль",
-                  _password2Controller, true),
-            ),
-            SizedBox(height: 30),
-            Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                height: 40,
-                width: 300,
-                child: _buttom(label, func),
-              ),
-            ),
-            SizedBox(height: 10), // Добавленный отступ
-            GestureDetector(
-              // Создание текстовой ссылки для перехода на экран аутентификации
-              onTap: () {
-                Navigator.of(context).pushNamed('/');
-              },
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "У вас уже есть аккаунт?",
-                    style: TextStyle(
-                      color: Colors.black, // Цвет ссылки
-                    ),
-                  ),
-                  Text(
-                    "Войти",
-                    style: TextStyle(
-                      color: Colors.blue, // Цвет ссылки
-                      decoration:
-                          TextDecoration.underline, // Подчеркивание текста
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
 
     Widget _logo() {
       return Padding(
@@ -157,31 +56,252 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-          leadingWidth: 85,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          leading: SizedBox(width: 20,),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10, top: 3),
-              child: SvgPicture.asset('assets/icons/tree.svg'),
-            )
-          ],
-        ),
+            leadingWidth: 190,
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            leading: SizedBox(width: 20,),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10, top: 3),
+                child: SvgPicture.asset('assets/icons/tree.svg'),
+              )
+            ]),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  Color.fromARGB(255, 168, 209, 161),
-                  Color.fromARGB(255, 136, 207, 123)
-                ])),
+                      Color.fromARGB(255, 168, 209, 161),
+                      Color.fromARGB(255, 136, 207, 123)
+                    ])),
             child: Column(
               children: <Widget>[
                 SizedBox(height: 90),
                 _logo(),
-                _form('Зарегистрировать', _GoToAuth),
+                Form(
+                  key: _formKey,
+                    child: Column(
+                  children: [
+                    SizedBox(height: 50,),
+                    Container(
+                      height: 50,
+                      width: 300,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 211, 211, 211),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        cursorWidth: 1,
+                        controller: _emailController,
+                        obscureText: false,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color.fromARGB(77, 0, 0, 0),
+                            fontFamily: 'Inder',
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Введите имя пользователя",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: IconTheme(
+                              data:
+                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                              child: Icon(Icons.email),
+                            ),
+                          ),
+                        ),
+                        onChanged: (val) {
+                          setState(() => email = val);
+                        },
+                      )
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      height: 50,
+                      width: 300,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 211, 211, 211),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        cursorWidth: 1,
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color.fromARGB(77, 0, 0, 0),
+                            fontFamily: 'Inder',
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Введите пароль",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: IconTheme(
+                              data:
+                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                              child: Icon(Icons.lock),
+                            ),
+                          ),
+                        ),
+                        onChanged: (val) {
+                          setState(() => password = val);
+                        },
+                      ),
+                    ),
+
+
+                    SizedBox(height: 20,),
+                    Container(
+                      height: 50,
+                      width: 300,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 211, 211, 211),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      child: TextFormField(
+                        cursorColor: Colors.black,
+                        cursorWidth: 1,
+                        controller: _password2Controller,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintStyle: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Color.fromARGB(77, 0, 0, 0),
+                            fontFamily: 'Inder',
+                          ),
+                          border: InputBorder.none,
+                          hintText: "Повторите пароль",
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: IconTheme(
+                              data:
+                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                              child: Icon(Icons.lock),
+                            ),
+                          ),
+                        ),
+                        onChanged: (val) {
+                          setState(() => password1 = val);
+                        },
+                      ),
+                    ),
+
+                    SizedBox(height: 20,),
+                    ElevatedButton(
+                      child: Text(
+                        'Зарегистрировать',
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                      onPressed: () async {
+                        //_formKey.currentState!.validate()
+                        if ((email!='') && (password.length >6) && (password == password1) && (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))) {
+                          dynamic result = await _auth.register(email, password);
+                          if (result == null) {
+                            setState(() => error = 'Укажите правильно');
+                          }
+                        }
+                        else if (email=='')
+                          {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  // Retrieve the text the that user has entered by using the
+                                  // TextEditingController.
+                                  content: Text('Введите mail'),
+                                );
+                              },
+                            );
+                          }
+
+                        else if (!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                // Retrieve the text the that user has entered by using the
+                                // TextEditingController.
+                                content: Text('Введите email правильно'),
+                              );
+                            },
+                          );
+                        }
+                        else if (password.length <=6)
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                // Retrieve the text the that user has entered by using the
+                                // TextEditingController.
+                                content: Text('Пароль должен быть больше 6 символов'),
+                              );
+                            },
+                          );
+                        }
+                        else if (password != password1)
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                // Retrieve the text the that user has entered by using the
+                                // TextEditingController.
+                                content: Text('Пароли должны совпадать'),
+                              );
+                            },
+                          );
+                        }
+                      },
+                    )
+                  ],
+                )),
+                SizedBox(height: 10),
+                GestureDetector(
+                  // Создание текстовой ссылки для перехода на экран аутентификации
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/Auth');
+                  },
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "У вас уже есть аккаунт?",
+                        style: TextStyle(
+                          color: Colors.black, // Цвет ссылки
+                        ),
+                      ),
+                      Text(
+                        "Войти",
+                        style: TextStyle(
+                          color: Colors.blue, // Цвет ссылки
+                          decoration:
+                          TextDecoration.underline, // Подчеркивание текста
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             )));
   }
