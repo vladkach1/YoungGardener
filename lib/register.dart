@@ -28,6 +28,46 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.of(context).pushNamed('/mainScreen');
   }
 
+// Функция для проверки введенных данных
+  void _validateAndRegister() {
+    if (_formKey.currentState!.validate()) {
+      if (password != password1) {
+        _showErrorDialog("Ошибка", "Пароли должны совпадать");
+      } else {
+        _register();
+      }
+    }
+  }
+
+// Функция для регистрации пользователя
+  void _register() async {
+    dynamic result = await _auth.register(email, password);
+    if (result == null) {
+      setState(() => error = 'Укажите правильно');
+    }
+  }
+
+// Функция для отображения диалогового окна с ошибкой
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -80,203 +120,142 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 90),
                 _logo(),
                 Form(
-                  key: _formKey,
+                    key: _formKey,
                     child: Column(
-                  children: [
-                    SizedBox(height: 50,),
-                    Container(
-                      height: 50,
-                      width: 300,
-                      padding: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 211, 211, 211),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
-                        cursorWidth: 1,
-                        controller: _emailController,
-                        obscureText: false,
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Color.fromARGB(77, 0, 0, 0),
-                            fontFamily: 'Inder',
-                          ),
-                          border: InputBorder.none,
-                          hintText: "Введите имя пользователя",
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: IconTheme(
-                              data:
-                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
-                              child: Icon(Icons.email),
+                      children: [
+                        SizedBox(height: 50,),
+                        Container(
+                            height: 50,
+                            width: 300,
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 211, 211, 211),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
                             ),
-                          ),
-                        ),
-                        onChanged: (val) {
-                          setState(() => email = val);
-                        },
-                      )
-                    ),
-                    SizedBox(height: 20,),
-                    Container(
-                      height: 50,
-                      width: 300,
-                      padding: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 211, 211, 211),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
-                        cursorWidth: 1,
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Color.fromARGB(77, 0, 0, 0),
-                            fontFamily: 'Inder',
-                          ),
-                          border: InputBorder.none,
-                          hintText: "Введите пароль",
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: IconTheme(
-                              data:
-                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
-                              child: Icon(Icons.lock),
-                            ),
-                          ),
-                        ),
-                        onChanged: (val) {
-                          setState(() => password = val);
-                        },
-                      ),
-                    ),
-
-
-                    SizedBox(height: 20,),
-                    Container(
-                      height: 50,
-                      width: 300,
-                      padding: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 211, 211, 211),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
-                      ),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
-                        cursorWidth: 1,
-                        controller: _password2Controller,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Color.fromARGB(77, 0, 0, 0),
-                            fontFamily: 'Inder',
-                          ),
-                          border: InputBorder.none,
-                          hintText: "Повторите пароль",
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: IconTheme(
-                              data:
-                              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
-                              child: Icon(Icons.lock),
-                            ),
-                          ),
-                        ),
-                        onChanged: (val) {
-                          setState(() => password1 = val);
-                        },
-                      ),
-                    ),
-
-                    SizedBox(height: 20,),
-                    ElevatedButton(
-                      child: Text(
-                        'Зарегистрировать',
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
-                      onPressed: () async {
-                        //_formKey.currentState!.validate()
-                        if ((email!='') && (password.length >6) && (password == password1) && (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))) {
-                          dynamic result = await _auth.register(email, password);
-                          if (result == null) {
-                            setState(() => error = 'Укажите правильно');
-                          }
-                        }
-                        else if (email=='')
-                          {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  // Retrieve the text the that user has entered by using the
-                                  // TextEditingController.
-                                  content: Text('Введите mail'),
-                                );
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              cursorWidth: 1,
+                              controller: _emailController,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Color.fromARGB(77, 0, 0, 0),
+                                  fontFamily: 'Inder',
+                                ),
+                                border: InputBorder.none,
+                                hintText: "Введите почту",
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: IconTheme(
+                                    data:
+                                    IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                                    child: Icon(Icons.email),
+                                  ),
+                                ),
+                              ),
+                              onChanged: (val) {
+                                setState(() => email = val);
                               },
-                            );
-                          }
+                            )
+                        ),
+                        SizedBox(height: 20,),
+                        Container(
+                          height: 50,
+                          width: 300,
+                          padding: EdgeInsets.zero,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 211, 211, 211),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                          ),
+                          child: TextFormField(
+                            cursorColor: Colors.black,
+                            cursorWidth: 1,
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Color.fromARGB(77, 0, 0, 0),
+                                fontFamily: 'Inder',
+                              ),
+                              border: InputBorder.none,
+                              hintText: "Введите пароль",
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                child: IconTheme(
+                                  data:
+                                  IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                                  child: Icon(Icons.lock),
+                                ),
+                              ),
+                            ),
+                            onChanged: (val) {
+                              setState(() => password = val);
+                            },
+                          ),
+                        ),
 
-                        else if (!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                // Retrieve the text the that user has entered by using the
-                                // TextEditingController.
-                                content: Text('Введите email правильно'),
-                              );
+
+                        SizedBox(height: 20,),
+                        Container(
+                          height: 50,
+                          width: 300,
+                          padding: EdgeInsets.zero,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 211, 211, 211),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                          ),
+                          child: TextFormField(
+                            cursorColor: Colors.black,
+                            cursorWidth: 1,
+                            controller: _password2Controller,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                                color: Color.fromARGB(77, 0, 0, 0),
+                                fontFamily: 'Inder',
+                              ),
+                              border: InputBorder.none,
+                              hintText: "Повторите пароль",
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(left: 10, right: 10),
+                                child: IconTheme(
+                                  data:
+                                  IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                                  child: Icon(Icons.lock),
+                                ),
+                              ),
+                            ),
+                            onChanged: (val) {
+                              setState(() => password1 = val);
                             },
-                          );
-                        }
-                        else if (password.length <=6)
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                // Retrieve the text the that user has entered by using the
-                                // TextEditingController.
-                                content: Text('Пароль должен быть больше 6 символов'),
-                              );
-                            },
-                          );
-                        }
-                        else if (password != password1)
-                        {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                // Retrieve the text the that user has entered by using the
-                                // TextEditingController.
-                                content: Text('Пароли должны совпадать'),
-                              );
-                            },
-                          );
-                        }
-                      },
-                    )
-                  ],
-                )),
+                          ),
+                        ),
+
+                        SizedBox(height: 20,),
+                        ElevatedButton(
+                          child: Text(
+                            'Зарегистрировать',
+                            style: Theme.of(context).textTheme.displayMedium,
+                          ),
+                          onPressed: _validateAndRegister,
+                        )
+                      ],
+                    )),
                 SizedBox(height: 10),
                 GestureDetector(
-                  // Создание текстовой ссылки для перехода на экран аутентификации
+// Создание текстовой ссылки для перехода на экран аутентификации
                   onTap: () {
                     Navigator.of(context).pushNamed('/Auth');
                   },

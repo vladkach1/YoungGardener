@@ -27,108 +27,55 @@ class _AuthPageState extends State<AuthPage> {
     Navigator.of(context).pushNamed('/mainScreen');
   }
 
+// Функция для проверки введенных данных
+  void _validateAndSignIn() {
+    if (email.isEmpty || password.isEmpty) {
+      _showErrorDialog("Ошибка", "Введите email и пароль");
+    }
+    else {
+      final bool isValidEmail = RegExp(
+        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+      ).hasMatch(email);
+      if (!isValidEmail) {
+        _showErrorDialog("Ошибка", "Некорректный email");
+        return;
+      }
+
+      if (password.length < 6) {
+        _showErrorDialog("Ошибка", "Пароль должен содержать не менее 6 символов");
+        return;
+      }
+
+// Здесь можно добавить вызов метода для входа пользователя
+// dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+// В случае успешного входа можно перейти на другой экран
+// _GoToMain();
+    }
+  }
+
+// Функция для отображения диалогового окна с ошибкой
+  void _showErrorDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-/*
-    Widget _input(Icon icon, String hint, TextEditingController controller,
-        bool obsecure) {
-      return Container(
-        height: 50,
-        width: 300,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 211, 211, 211),
-          borderRadius: BorderRadius.all(
-            Radius.circular(25),
-          ),
-        ),
-        child: TextField(
-          cursorColor: Colors.black,
-          cursorWidth: 1,
-          controller: controller,
-          obscureText: obsecure,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-              color: Color.fromARGB(77, 0, 0, 0),
-              fontFamily: 'Inder',
-            ),
-            border: InputBorder.none,
-            hintText: hint,
-            prefixIcon: Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
-              child: IconTheme(
-                data:
-                    IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
-                child: icon,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    Widget _form(String label, void func()) {
-  return Container(
-    child: Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(bottom: 25, top: 50),
-          child: _input(
-              Icon(Icons.email),
-              "Введите имя пользователя",
-              _emailController,
-              false),
-        ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 25),
-          child: _input(
-              Icon(Icons.lock),
-              "Введите пароль",
-              _passwordController,
-              true),
-        ),
-        SizedBox(height: 30),
-        Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Container(
-            height: 40,
-            width: 300,
-            //child: _buttom(label, func),
-          ),
-        ),
-        SizedBox(height: 10),
-        GestureDetector( // Создание текстовой ссылки для перехода на экран регистрации
-          onTap: () {
-            Navigator.of(context).pushNamed('/Register');
-          },
-          child: Column(
-            children: [
-              SizedBox(height: 10,),
-              Text(
-                "У вас нет аккаунта?",
-                style: TextStyle(
-                  color: Colors.black, // Цвет ссылки
-                ),
-              ),
-              Text(
-                "Зарегистрироваться",
-                style: TextStyle(
-                  color: Colors.blue, // Цвет ссылки
-                  decoration: TextDecoration.underline, // Подчеркивание текста
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}
-*/
-
-    ;
     Widget _logo() {
       return Padding(
         padding: EdgeInsets.only(top: 50),
@@ -170,9 +117,9 @@ class _AuthPageState extends State<AuthPage> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                  Color.fromARGB(255, 168, 209, 161),
-                  Color.fromARGB(255, 136, 207, 123)
-                ])),
+                      Color.fromARGB(255, 168, 209, 161),
+                      Color.fromARGB(255, 136, 207, 123)
+                    ])),
             child: Column(
               children: <Widget>[
                 SizedBox(height: 90),
@@ -180,16 +127,16 @@ class _AuthPageState extends State<AuthPage> {
                 Form(child: Column(
                   children: [
                     SizedBox(height: 50,),
-                  Container(
-                  height: 50,
-                  width: 300,
-                  padding: EdgeInsets.zero,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 211, 211, 211),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
+                    Container(
+                      height: 50,
+                      width: 300,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 211, 211, 211),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
                       child: TextFormField(
                         cursorColor: Colors.black,
                         cursorWidth: 1,
@@ -203,7 +150,7 @@ class _AuthPageState extends State<AuthPage> {
                             fontFamily: 'Inder',
                           ),
                           border: InputBorder.none,
-                          hintText: "Введите имя пользователя",
+                          hintText: "Введите почту",
                           prefixIcon: Padding(
                             padding: EdgeInsets.only(left: 10, right: 10),
                             child: IconTheme(
@@ -213,11 +160,11 @@ class _AuthPageState extends State<AuthPage> {
                             ),
                           ),
                         ),
-                      onChanged: (val) {
+                        onChanged: (val) {
                           setState(() => email = val);
-                                      },
-                                      ),
-                  ),
+                        },
+                      ),
+                    ),
                     SizedBox(height: 20,),
                     Container(
                       height: 50,
@@ -254,19 +201,17 @@ class _AuthPageState extends State<AuthPage> {
                         ),
                         onChanged: (val) {
                           setState(() => password = val);
-                      },
+                        },
                       ),
                     ),
                     SizedBox(height: 20,),
-                  ElevatedButton(
-                    child: Text(
-                      'Войти',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    onPressed: () async {
-                      //dynamic result = await _auth.sing();
-                    },
-                  )
+                    ElevatedButton(
+                      child: Text(
+                        'Войти',
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                      onPressed: _validateAndSignIn,
+                    )
                   ],
                 )),
                 SizedBox(height: 10),
