@@ -139,7 +139,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                         Container(
                           child: SvgPicture.asset('assets/icons/checkmark.svg'),
                           padding: EdgeInsets.only(
-                              top: 20, bottom: 20, left: 100, right: 10),
+                              top: 20, bottom: 20, left: 9, right: 10),
                           decoration: BoxDecoration(
                             color: Color(0xff54AD45),
                             borderRadius: BorderRadius.circular(12),
