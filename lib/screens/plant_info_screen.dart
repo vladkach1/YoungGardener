@@ -131,8 +131,8 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                   ),
                   //Напоминание 1
                   Slidable(
-                    endActionPane: ActionPane(
-                      extentRatio: 0.6,
+                    startActionPane: ActionPane(
+                      extentRatio: 0.15,
                       closeThreshold: 0.9,
                       motion: BehindMotion(),
                       children: [

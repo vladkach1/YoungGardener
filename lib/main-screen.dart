@@ -42,8 +42,8 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             //Напоминание 1
             Slidable(
-              endActionPane: ActionPane(
-                extentRatio: 0.6,
+              startActionPane: ActionPane(
+                extentRatio: 0.15,
                 closeThreshold: 0.9,
                 motion: BehindMotion(),
                 children: [
@@ -80,13 +80,13 @@ class _MainScreenState extends State<MainScreen> {
                         Column(
                           children: [
                             SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             SvgPicture.asset('assets/icons/plant2.svg'),
                           ],
                         ),
                         SizedBox(
-                          width: 10,
+                          width: 20,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
