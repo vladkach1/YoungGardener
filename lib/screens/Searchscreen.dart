@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:young_gardener/services/plant.dart';
 
 class SearchScreen extends StatefulWidget {
   static const searchScreen = "/searchScreen";
@@ -9,21 +10,34 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
+///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
+  void ListOfPlants() async {
+    List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
+
+    // Вывод значений всех растений
+    plants.forEach((plant) {
+      print('Название: ${plant.name}');
+      print('Воды: ${plant.water}');
+      print('Влажность: ${plant.humidity}');
+      print('Размер: ${plant.size}');
+      print('Температура: ${plant.temperature}');
+      print('----------------------');
+    });
+  }
+
   String _namePlans(int i) {
     List<String> Plans = [' Петрушка кудрявая', ' Монстера деликатесная'];
     return Plans[i];
   }
 
-   void _GoToInfo() {
-     Navigator.of(context).pushNamed('/Info');
- }
-
-  void _GoToAddNewPlant(){
-    Navigator.of(context).pushNamed('/Info2');
+  void _GoToInfo() {
+    Navigator.of(context).pushNamed('/Info');
   }
 
-
+  void _GoToAddNewPlant() {
+    Navigator.of(context).pushNamed('/Info2');
+  }
 
   @override
   void initState() {
@@ -65,8 +79,7 @@ class _SearchScreenState extends State<SearchScreen> {
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
             child: IconTheme(
-              data:
-              IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+              data: IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
               child: icon,
             ),
           ),
@@ -75,23 +88,23 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: screenWidth * 0.05,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10,top: 3),
-              child: SvgPicture.asset('assets/icons/tree.svg'),
-            )],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10, top: 3),
+            child: SvgPicture.asset('assets/icons/tree.svg'),
+          )
+        ],
         flexibleSpace: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(25),
-        ),
+              bottom: Radius.circular(25),
+            ),
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -103,7 +116,6 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         toolbarHeight: 75,
         centerTitle: true,
-        
         title: Row(
           children: [
             _input(Icon(Icons.search), 'Поиск', _searchController),
