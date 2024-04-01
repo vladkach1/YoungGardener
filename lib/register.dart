@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:young_gardener/widgets/loading.dart';
 import 'services/authindication.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   String email = '';
   String password = '';
@@ -54,10 +56,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
 // Функция для регистрации пользователя
   void _register() async {
+    setState(() => loading = true);
     dynamic result = await _auth.register(email, password);
     Navigator.of(context).pushNamed('/');
     if (result == null) {
-      setState(() => error = 'Укажите правильно');
+      setState(() { 
+        error = 'Укажите правильно';
+        loading = false;
+      });
     }
   }
 
@@ -107,7 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     }
 
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
             leadingWidth: 190,
