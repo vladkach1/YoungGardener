@@ -29,19 +29,33 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
 // Функция для проверки введенных данных
-  void _validateAndRegister() {
-    if (_formKey.currentState!.validate()) {
-      if (password != password1) {
-        _showErrorDialog("Ошибка", "Пароли должны совпадать");
-      } else {
-        _register();
-      }
+  Future _validateAndRegister() async {
+    if ((email!='') && (password.length >6) && (password == password1) && (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))) {
+      _register();
     }
+    else if (email=='')
+    {
+      _showErrorDialog("Ошибка", "Введите email");
+    }
+
+    else if (!RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))
+    {
+      _showErrorDialog("Ошибка", "Некорректный email");
+    }
+    else if (password.length <=6)
+    {
+      _showErrorDialog("Ошибка", "Пароль должен содержать не менее 6 символов");
+    }
+    else if (password != password1)
+    {
+      _showErrorDialog("Ошибка", "Пароли должены совпадать");
+          }
   }
 
 // Функция для регистрации пользователя
   void _register() async {
     dynamic result = await _auth.register(email, password);
+    Navigator.of(context).pushNamed('/');
     if (result == null) {
       setState(() => error = 'Укажите правильно');
     }
