@@ -11,10 +11,12 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
 
+  final _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
 
   String email = '';
   String password = '';
+  String error = '';
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -29,13 +31,14 @@ class _AuthPageState extends State<AuthPage> {
 
 // Функция для проверки введенных данных
   void _validateAndSignIn() {
-    if (email.isEmpty || password.isEmpty) {
-      _showErrorDialog("Ошибка", "Введите email и пароль");
+    if (email.isEmpty) {
+      _showErrorDialog("Ошибка", "Введите email");
+    }
+    else if (password.isEmpty) {
+      _showErrorDialog("Ошибка", "Введите пароль");
     }
     else {
-      final bool isValidEmail = RegExp(
-        r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-      ).hasMatch(email);
+      final bool isValidEmail = RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email);
       if (!isValidEmail) {
         _showErrorDialog("Ошибка", "Некорректный email");
         return;
@@ -45,11 +48,16 @@ class _AuthPageState extends State<AuthPage> {
         _showErrorDialog("Ошибка", "Пароль должен содержать не менее 6 символов");
         return;
       }
-
-// Здесь можно добавить вызов метода для входа пользователя
-// dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-// В случае успешного входа можно перейти на другой экран
-// _GoToMain();
+      _sign();
+    }
+  }
+  // Функция для регистрации пользователя
+  void _sign() async {
+    dynamic result = await _auth.sign(email, password);
+    Navigator.of(context).pushNamed('/');
+    if (result == null) {
+      setState(() => error = 'Укажите правильно');
+      _showErrorDialog('Ошибка','Пользователя не существует');
     }
   }
 
@@ -124,7 +132,9 @@ class _AuthPageState extends State<AuthPage> {
               children: <Widget>[
                 SizedBox(height: 90),
                 _logo(),
-                Form(child: Column(
+                Form(
+                    key: _formKey,
+                    child: Column(
                   children: [
                     SizedBox(height: 50,),
                     Container(
