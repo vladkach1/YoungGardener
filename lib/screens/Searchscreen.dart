@@ -38,9 +38,10 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
 
   Widget _input(Icon icon, String hint, TextEditingController controller) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 50,
-      width: 286,
+      width: screenWidth * 0.74,
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 211, 211, 211),
@@ -77,9 +78,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 30,
+        leadingWidth: screenWidth * 0.05,
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 10,top: 3),
