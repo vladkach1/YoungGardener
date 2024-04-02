@@ -10,26 +10,10 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
+List<String> Plans = [];
+
 ///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
-  void ListOfPlants() async {
-    List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
-
-    // Вывод значений всех растений
-    plants.forEach((plant) {
-      print('Название: ${plant.name}');
-      print('Воды: ${plant.water}');
-      print('Влажность: ${plant.humidity}');
-      print('Размер: ${plant.size}');
-      print('Температура: ${plant.temperature}');
-      print('----------------------');
-    });
-  }
-
-  String _namePlans(int i) {
-    List<String> Plans = [' Петрушка кудрявая', ' Монстера деликатесная'];
-    return Plans[i];
-  }
 
   void _GoToInfo() {
     Navigator.of(context).pushNamed('/Info');
@@ -149,14 +133,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 onPressed: _GoToAddNewPlant,
                 child: Align(
                   alignment: Alignment(-1, 0),
-                  child: Text(
-                    _namePlans(index),
+                  child:  Text(
+                    Plans[index],
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),
             ),
-            itemCount: 2,
+            itemCount: Plans.length,
           ),
         ],
       ),

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
 
 class MainScreen extends StatefulWidget {
@@ -25,7 +27,30 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/Search');
   }
 
-  void _AddPlant() {
+  void ListOfPlants() async {
+    try {
+      List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
+      plants.forEach((plant) {
+        Plans.add(plant.name);
+        /*
+      print('Название: ${plant.name}');
+      print('Воды: ${plant.water}');
+      print('Влажность: ${plant.humidity}');
+      print('Размер: ${plant.size}');
+      print('Температура: ${plant.temperature}');
+      print('----------------------');
+      */
+      });
+    }
+    catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _AddPlant() async {
+    if (Plans.length==0) {
+      ListOfPlants();
+    }
     Navigator.of(context).pushNamed('/Search');
   }
 

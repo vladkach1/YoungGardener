@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 ///тоже можно доделать подумать завтра (кирилл)
 class Plant {
@@ -31,9 +32,11 @@ Future<List<Plant>> loadPlantsFromFile(String filePath) async {
   List<Plant> plants = [];
 
   try {
-    File file = File(filePath);
-    List<String> lines = await file.readAsLines();
 
+    //File file = File(filePath);
+    //List<String> lines = await file.readAsLines();
+    String l = await rootBundle.loadString(filePath);
+    List<String> lines = l.split("\n");
     lines.forEach((line) {
       List<String> parts = line.split(',');
       if (parts.length == 4) {
