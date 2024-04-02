@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'imageFromUrl.dart';
+
 class PlantCharacteristics extends StatelessWidget {
   const PlantCharacteristics({
     Key? key,
@@ -15,11 +17,7 @@ class PlantCharacteristics extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset(
-                'assets/images/plant.png',
-                width: 129,
-                height: 132,
-              ),
+              imageFromUrl("https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663607184_36-mykaleidoscope-ru-p-petrushka-na-ogorode-instagram-41.jpg"),
               SizedBox(width: 40),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

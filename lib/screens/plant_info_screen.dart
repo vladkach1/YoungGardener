@@ -195,15 +195,6 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                             ],
                           ),
                         ),
-                        // Switch(
-                        //   thumbIcon: thumbIcon,
-                        //   value: light1,
-                        //   onChanged: (bool value) {
-                        //     setState(() {
-                        //       light1 = value;
-                        //     });
-                        //   },
-                        // ),
                       ],
                     ),
                   ),
