@@ -3,15 +3,11 @@ import 'package:flutter/material.dart';
 class AdditionalInformationOnWaterAndSun extends StatelessWidget {
   final int waterAmount;
   final int sunshine;
-  final String humidity;
-  final String size;
 
   const AdditionalInformationOnWaterAndSun({
     Key? key,
     required this.waterAmount,
     required this.sunshine,
-    required this.humidity,
-    required this.size,
   }) : super(key: key);
 
   @override

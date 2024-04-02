@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:young_gardener/screens/plant_info_screen2.dart';
 import 'package:young_gardener/services/plant.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -10,16 +11,12 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-List<String> Plans = [];
+List<Plant> ListPlants = [];
+
 ///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
-  
   void _GoToInfo() {
     Navigator.of(context).pushNamed('/Info');
-  }
-
-  void _GoToAddNewPlant() {
-    Navigator.of(context).pushNamed('/Info2');
   }
 
   @override
@@ -108,7 +105,7 @@ class _SearchScreenState extends State<SearchScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 7),
           child: IconButton(
-            icon: Icon(Icons.arrow_back ),
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -129,17 +126,30 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 53,
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
-                onPressed: _GoToAddNewPlant,
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PlantInfoScreen2(
+                                name: ListPlants[index].name,
+                                water: ListPlants[index].water,
+                                humidity: ListPlants[index].humidity,
+                                description: ListPlants[index].description,
+                                size: ListPlants[index].size,
+                                temperature: ListPlants[index].temperature,
+                                imgUrl: ListPlants[index].imgUrl,
+                              )))
+                },
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
-                    Plans[index],
+                    ListPlants[index].name,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
               ),
             ),
-            itemCount: Plans.length,
+            itemCount: ListPlants.length,
           ),
         ],
       ),

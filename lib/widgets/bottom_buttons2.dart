@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class BottomButtons2 extends StatelessWidget {
   const BottomButtons2({Key? key}) : super(key: key);
 
@@ -18,7 +17,7 @@ class BottomButtons2 extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // Действия для первой кнопки
+                
               },
               child: Text(
                 'Добавить',
@@ -36,7 +35,7 @@ class BottomButtons2 extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                // Действия для второй кнопки
+                //addUserPlant();
               },
               child: Text(
                 'Удалить',
@@ -51,5 +50,9 @@ class BottomButtons2 extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void addPlant(String name){
+
   }
 }

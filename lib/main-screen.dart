@@ -3,12 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
-import 'package:young_gardener/screens/wrapper.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
-import 'services/DatabaseUser.dart';
-import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+List<Plant> _userPlants = [];
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
@@ -22,6 +21,18 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/');
   }
 
+  List<Plant> getUserPlants() {
+    return _userPlants;
+  }
+
+  void addUserPlant(Plant newPlant) {
+    _userPlants.add(newPlant);
+  }
+
+  void deleteUserPlant(int index) {
+    _userPlants.removeAt(index);
+  }
+
   void _GoToInfo() {
     Navigator.of(context).pushNamed('/Info');
   }
@@ -30,19 +41,12 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/Search');
   }
 
-  void ListOfPlants() async {
+  void GetListOfPlants() async {
     try {
       List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
       plants.forEach((plant) {
-        Plans.add(plant.name);
-        /*
-      print('Название: ${plant.name}');
-      print('Воды: ${plant.water}');
-      print('Влажность: ${plant.humidity}');
-      print('Размер: ${plant.size}');
-      print('Температура: ${plant.temperature}');
-      print('----------------------');
-      */
+        ListPlants.add(plant);
+        print(plant.name);
       });
     } catch (e) {
       print(e.toString());
@@ -50,8 +54,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _AddPlant() async {
-    if (Plans.length == 0) {
-      ListOfPlants();
+    if (ListPlants.length == 0) {
+      GetListOfPlants();
     }
     Navigator.of(context).pushNamed('/Search');
   }

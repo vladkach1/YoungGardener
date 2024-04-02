@@ -78,7 +78,6 @@ class MyApp extends StatelessWidget {
           '/Auth': (context) => AuthPage(),
           '/mainScreen': (context) => MainScreen(),
           '/Register': (context) => RegisterPage(),
-          '/Info2': (context)=> PlantInfoScreen2()
         },
       ),
     );

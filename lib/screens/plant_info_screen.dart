@@ -68,12 +68,8 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
         ],
         title: Container(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: SvgPicture.asset('assets/icons/plant.svg'),
-              ),
-              SizedBox(width: 10),
               Padding(
                 padding: const EdgeInsets.only(bottom: 7),
                 child: Text(
@@ -208,8 +204,6 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
             AdditionalInformationOnWaterAndSun(
               waterAmount: 150,
               sunshine: 16,
-              humidity: "80-85%",
-              size: "60-90%",
             ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
             BottomButtons(),

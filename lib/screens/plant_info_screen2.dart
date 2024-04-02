@@ -8,6 +8,26 @@ import 'package:google_fonts/google_fonts.dart';
 
 class PlantInfoScreen2 extends StatefulWidget {
   static const infoScreen = "/infoScreen2";
+
+  final String name;
+  final int water;
+  final int humidity;
+  final int size;
+  final int temperature;
+  final String imgUrl;
+  final String description;
+
+  const PlantInfoScreen2({
+    Key? key,
+    required this.name,
+    required this.water,
+    required this.humidity,
+    required this.size,
+    required this.temperature,
+    required this.imgUrl,
+    required this.description,
+  }) : super(key: key);
+
   @override
   _PlantInfoScreenState2 createState() => _PlantInfoScreenState2();
 }
@@ -66,18 +86,14 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
         ],
         title: Container(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: SvgPicture.asset('assets/icons/plant.svg'),
-              ),
-              SizedBox(width: 10),
               Padding(
                 padding: const EdgeInsets.only(bottom: 7),
                 child: Text(
-                  'Монстера деликатенсная',
+                  widget.name,
                   style: GoogleFonts.inder(
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -106,16 +122,25 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
               ),
             ),
             PlantCharacteristics2(
-                textDescriptionStyle: textCharacteristicsStyle),
+              textDescriptionStyle: textCharacteristicsStyle,
+              water: widget.water,
+              humidity: widget.humidity,
+              temperature: widget.temperature,
+              size: widget.size,
+            ),
             SliverToBoxAdapter(child: SizedBox(height: 40)),
-            PlantDescription2(textDescriptionStyle: textDescriptionStyle),
+            PlantDescription2(
+              textDescriptionStyle: textDescriptionStyle,
+              textDescription: widget.description,
+            ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Column(
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.search, color: const Color.fromARGB(255,168,209,161) ),
+                      Icon(Icons.search,
+                          color: const Color.fromARGB(255, 168, 209, 161)),
                       SizedBox(
                         width: 10,
                       ),
@@ -128,8 +153,6 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
                   SizedBox(
                     height: 150,
                   ),
-                
-                  
                   SizedBox(
                     height: 20,
                   ),
@@ -137,10 +160,8 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
               ),
             ),
             AdditionalInformationOnWaterAndSun(
-              waterAmount: 150,
-              sunshine: 16,
-              humidity: "более 70%",
-              size: "до 3м",
+              waterAmount: widget.water,
+              sunshine: widget.temperature,
             ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
             BottomButtons2(),

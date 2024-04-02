@@ -1,13 +1,20 @@
-
 import 'package:flutter/material.dart';
 
 class PlantCharacteristics2 extends StatelessWidget {
   const PlantCharacteristics2({
     Key? key,
     required this.textDescriptionStyle,
+    required this.water,
+    required this.humidity,
+    required this.temperature,
+    required this.size,
   }) : super(key: key);
 
   final TextStyle textDescriptionStyle;
+  final int water;
+  final int humidity;
+  final int size;
+  final int temperature;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class PlantCharacteristics2 extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sunshine',
+                    'Температура',
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -37,14 +44,14 @@ class PlantCharacteristics2 extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        '20-30°C',
+                        temperature.toString() + "C°",
                         style: textDescriptionStyle,
                       ),
                     ],
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'Humidity',
+                    'Влажность',
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -55,14 +62,14 @@ class PlantCharacteristics2 extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        'более 70%',
+                        humidity.toString()+"%",
                         style: textDescriptionStyle,
                       ),
                     ],
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'Size',
+                    "Размер",
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -73,7 +80,7 @@ class PlantCharacteristics2 extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        'до 3cm',
+                        size.toString()+" см",
                         style: textDescriptionStyle,
                       ),
                     ],
