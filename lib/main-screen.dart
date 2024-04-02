@@ -345,7 +345,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            itemCount: 2,
+            itemCount: 1,
           ),
           _remind(),
           _remindList(),

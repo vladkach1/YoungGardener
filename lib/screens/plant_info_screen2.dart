@@ -123,17 +123,13 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
             ),
             PlantCharacteristics2(
               textDescriptionStyle: textCharacteristicsStyle,
+              imageUrl: widget.imgUrl,
               water: widget.water,
               humidity: widget.humidity,
               temperature: widget.temperature,
               size: widget.size,
             ),
             SliverToBoxAdapter(child: SizedBox(height: 40)),
-            PlantDescription2(
-              textDescriptionStyle: textDescriptionStyle,
-              textDescription: widget.description,
-            ),
-            SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Column(
                 children: [
@@ -148,17 +144,19 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
                         'Обзор растения',
                         style: GoogleFonts.inter(fontSize: 20),
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                 ],
               ),
             ),
+            PlantDescription2(
+              textDescriptionStyle: textDescriptionStyle,
+              textDescription: widget.description,
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20)),
             AdditionalInformationOnWaterAndSun(
               waterAmount: widget.water,
               sunshine: widget.temperature,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'imageFromUrl.dart';
+
 class PlantCharacteristics2 extends StatelessWidget {
   const PlantCharacteristics2({
     Key? key,
@@ -8,6 +10,7 @@ class PlantCharacteristics2 extends StatelessWidget {
     required this.humidity,
     required this.temperature,
     required this.size,
+    required this.imageUrl,
   }) : super(key: key);
 
   final TextStyle textDescriptionStyle;
@@ -15,6 +18,7 @@ class PlantCharacteristics2 extends StatelessWidget {
   final int humidity;
   final int size;
   final int temperature;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +27,7 @@ class PlantCharacteristics2 extends StatelessWidget {
         children: [
           Row(
             children: [
-              Image.asset(
-                'assets/images/plant2.png',
-                width: 129,
-                height: 132,
-              ),
+              imageFromUrl(imageUrl),
               SizedBox(width: 40),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +44,7 @@ class PlantCharacteristics2 extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        temperature.toString() + "C°",
+                        temperature.toString() + " C°",
                         style: textDescriptionStyle,
                       ),
                     ],
@@ -62,7 +62,7 @@ class PlantCharacteristics2 extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        humidity.toString()+"%",
+                        humidity.toString()+" %",
                         style: textDescriptionStyle,
                       ),
                     ],
