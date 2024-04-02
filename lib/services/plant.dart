@@ -25,15 +25,12 @@ class Plant {
   final description = parts[1].trim(); // Убираем пробельные символы по краям, если они есть
   final dataParts = parts[0].split(',');
   final imgUrl = dataParts.last.split(' ')[1].trim(); // Получаем URL изображения, который всегда последний
-  
   // Удаляем часть с URL изображения, чтобы она не мешала парсингу остальных данных
   dataParts.removeLast();
-
   Map<String, String> dataMap = {
     for (var part in dataParts)
-      part.split(':')[0].trim(): part.split(':')[1].trim(),
+      part.split(RegExp(r'\s'))[0].trim(): part.split(RegExp(r'\s'))[1].trim(),
   };
-
   return Plant(
     name: dataMap.keys.first,
     water: int.parse(dataMap['Воды']!),
