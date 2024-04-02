@@ -11,10 +11,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 List<String> Plans = [];
-
 ///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
-
+  
   void _GoToInfo() {
     Navigator.of(context).pushNamed('/Info');
   }
@@ -39,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 50,
-      width: screenWidth * 0.74,
+      width: screenWidth * 0.65,
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 211, 211, 211),
@@ -77,7 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: screenWidth * 0.05,
+        leadingWidth: screenWidth * 0.15,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10, top: 3),
@@ -109,7 +108,7 @@ class _SearchScreenState extends State<SearchScreen> {
         leading: Padding(
           padding: const EdgeInsets.only(left: 7),
           child: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back ),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -133,7 +132,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 onPressed: _GoToAddNewPlant,
                 child: Align(
                   alignment: Alignment(-1, 0),
-                  child:  Text(
+                  child: Text(
                     Plans[index],
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
