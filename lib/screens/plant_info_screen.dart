@@ -6,6 +6,7 @@ import 'package:young_gardener/widgets/additional_information_on_water_and_sun.d
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:young_gardener/main-screen.dart';
 
 class PlantInfoScreen extends StatefulWidget {
   static const infoScreen = "/infoScreen";
@@ -14,10 +15,7 @@ class PlantInfoScreen extends StatefulWidget {
 }
 
 class _PlantInfoScreenState extends State<PlantInfoScreen> {
-  final TextStyle textCharacteristicsStyle =
-      GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 14);
-  final TextStyle textDescriptionStyle =
-      GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 12);
+  List<String> remindList = ['Напоминание'];
 
   bool light0 = true;
   bool light1 = true;
@@ -44,12 +42,13 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
               bottom: Radius.circular(25),
             ),
             gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color.fromARGB(255, 168, 209, 161),
-                  Color.fromARGB(255, 136, 207, 123)
-                ]),
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 168, 209, 161),
+                Color.fromARGB(255, 136, 207, 123)
+              ],
+            ),
           ),
         ),
         shape: RoundedRectangleBorder(
@@ -106,54 +105,17 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                 height: 40,
               ),
             ),
-            PlantCharacteristics(
-                textDescriptionStyle: textCharacteristicsStyle),
-            SliverToBoxAdapter(child: SizedBox(height: 40)),
-            PlantDescription(textDescriptionStyle: textDescriptionStyle),
-            SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Column(
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset('assets/icons/notification.svg'),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Напоминания',
-                        style: GoogleFonts.inter(fontSize: 20),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //Напоминание 1
-                  Slidable(
-                    startActionPane: ActionPane(
-                      extentRatio: 0.15,
-                      closeThreshold: 0.9,
-                      motion: BehindMotion(),
-                      children: [
+                children: remindList.isEmpty
+                    ? [
+                        // Если список пуст, выводим сообщение
                         Container(
-                          child: SvgPicture.asset('assets/icons/checkmark.svg'),
-                          padding: EdgeInsets.only(
-                              top: 20, bottom: 20, left: 9, right: 10),
-                          decoration: BoxDecoration(
-                            color: Color(0xff54AD45),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 15),
                           decoration: BoxDecoration(
                             color: Color(0xffC7C4C4),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
@@ -163,47 +125,98 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
                               ),
                             ],
                           ),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SvgPicture.asset('assets/icons/plant2.svg'),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Петрушка кудрявая',
-                                    style: GoogleFonts.inika(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Растение нужно полить (150мл)',
-                                    style: GoogleFonts.inter(fontSize: 10),
-                                  )
-                                ],
-                              ),
-                              SizedBox(width: 53),
-                            ],
+                          child: Text(
+                            'У вас нет действующих напоминаний',
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                ],
+                      ]
+                    : List.generate(remindList.length, (index) {
+                        return Slidable(
+                          startActionPane: ActionPane(
+                            extentRatio: 0.15,
+                            closeThreshold: 0.9,
+                            motion: BehindMotion(),
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  // Удаление напоминания из списка при нажатии зеленой кнопки
+                                  setState(() {
+                                    remindList.removeAt(index);
+                                  });
+                                },
+                                child: Container(
+                                  child: SvgPicture.asset(
+                                      'assets/icons/checkmark.svg'),
+                                  padding: EdgeInsets.only(
+                                      top: 20, bottom: 20, left: 9, right: 10),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xff54AD45),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                    top: 5, bottom: 5, left: 10),
+                                decoration: BoxDecoration(
+                                  color: Color(0xffC7C4C4),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        SvgPicture.asset(
+                                            'assets/icons/plant2.svg'),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Петрушка кудрявая',
+                                          style: GoogleFonts.inika(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Растение нужно полить (150мл)',
+                                          style:
+                                              GoogleFonts.inter(fontSize: 10),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(width: 53),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
               ),
             ),
+            SliverToBoxAdapter(child: SizedBox(height: 45)),
             AdditionalInformationOnWaterAndSun(
               waterAmount: 150,
               sunshine: 16,
