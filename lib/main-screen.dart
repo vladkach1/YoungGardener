@@ -3,8 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/screens/wrapper.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
+import 'services/DatabaseUser.dart';
+import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:young_gardener/services/plant.dart';
+import 'DatabaseUser.dart';
 import 'User.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,10 +15,11 @@ class AuthService{
     return _auth.authStateChanges().map((User? user) => _userFromFirebaseUser(user));
   }
 
-  Future register(String email, String password) async {
+  Future register(String email, String password, String username) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
+      await DatabaseUser(uid: user!.uid).addUserData(username,[]);
       return _userFromFirebaseUser(user);
     }
     catch(e){

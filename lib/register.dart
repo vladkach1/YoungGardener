@@ -21,8 +21,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String password = '';
   String password1 = '';
   String error = '';
+  String username='';
 
   TextEditingController _emailController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
 
@@ -57,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
 // Функция для регистрации пользователя
   void _register() async {
     setState(() => loading = true);
-    dynamic result = await _auth.register(email, password);
+    dynamic result = await _auth.register(email, password,username);
     Navigator.of(context).pushNamed('/');
     if (result == null) {
       setState(() { 
@@ -144,6 +146,45 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Column(
                       children: [
                         SizedBox(height: 50,),
+                        Container(
+                            height: 50,
+                            width: 300,
+                            padding: EdgeInsets.zero,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 211, 211, 211),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(25),
+                              ),
+                            ),
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              cursorWidth: 1,
+                              controller: _usernameController,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Color.fromARGB(77, 0, 0, 0),
+                                  fontFamily: 'Inder',
+                                ),
+                                border: InputBorder.none,
+                                hintText: "Введите никнэйм",
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: IconTheme(
+                                    data:
+                                    IconThemeData(color: const Color.fromARGB(255, 53, 53, 53)),
+                                    child: Icon(Icons.person),
+                                  ),
+                                ),
+                              ),
+                              onChanged: (val) {
+                                setState(() => username = val);
+                              },
+                            )
+                        ),
+                        SizedBox(height: 20,),
                         Container(
                             height: 50,
                             width: 300,
