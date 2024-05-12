@@ -6,7 +6,6 @@ import 'package:young_gardener/widgets/additional_information_on_water_and_sun.d
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:young_gardener/main-screen.dart';
 
 class PlantInfoScreen extends StatefulWidget {
   static const infoScreen = "/infoScreen";

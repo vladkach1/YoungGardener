@@ -17,9 +17,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final AuthService _auth = AuthService();
 
-  void _GoToAuth() {
-    Navigator.of(context).pushNamed('/');
-  }
 
   List<Plant> getUserPlants() {
     return _userPlants;
@@ -37,9 +34,6 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/Info');
   }
 
-  void _GoToSearch() {
-    Navigator.of(context).pushNamed('/Search');
-  }
 
   void GetListOfPlants() async {
     try {

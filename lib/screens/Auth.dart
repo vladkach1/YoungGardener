@@ -23,14 +23,6 @@ class _AuthPageState extends State<AuthPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  void _GoToReg() {
-    Navigator.of(context).pushNamed('/Register');
-  }
-
-  void _GoToMain() {
-    Navigator.of(context).pushNamed('/mainScreen');
-  }
-
 // Функция для проверки введенных данных
   void _validateAndSignIn() {
     if (email.isEmpty) {
@@ -57,7 +49,7 @@ class _AuthPageState extends State<AuthPage> {
   void _sign() async {
     setState(() => loading = true);
     dynamic result = await _auth.sign(email, password);
-    Navigator.of(context).pushNamed('/');
+    Navigator.of(context).pushReplacementNamed('/');
     if (result == null) {
       setState(() { 
         error = 'Укажите правильно';
@@ -233,7 +225,7 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(height: 10),
                 GestureDetector( // Создание текстовой ссылки для перехода на экран регистрации
                   onTap: () {
-                    Navigator.of(context).pushNamed('/Register');
+                    Navigator.of(context).pushReplacementNamed('/Register');
                   },
                   child: Column(
                     children: [

@@ -15,10 +15,6 @@ List<Plant> ListPlants = [];
 
 ///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
-  void _GoToInfo() {
-    Navigator.of(context).pushNamed('/Info');
-  }
-
   @override
   void initState() {
     super.initState();
@@ -30,6 +26,29 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   TextEditingController _searchController = TextEditingController();
+
+  void filterSearchResults(String query) {
+    List<Plant> dummySearchList = [];
+    dummySearchList.addAll(ListPlants);
+    if (query.isNotEmpty) {
+      List<Plant> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if (item.name.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        ListPlants.clear();
+        ListPlants.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        ListPlants.clear();
+        ListPlants.addAll(ListPlants);
+      });
+    }
+  }
 
   Widget _input(Icon icon, String hint, TextEditingController controller) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -47,6 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
         cursorColor: Colors.black,
         cursorWidth: 1,
         controller: controller,
+        onChanged: filterSearchResults,
         decoration: InputDecoration(
           hintStyle: TextStyle(
             fontWeight: FontWeight.bold,
@@ -127,18 +147,20 @@ class _SearchScreenState extends State<SearchScreen> {
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
                 onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PlantInfoScreen2(
-                                name: ListPlants[index].name,
-                                water: ListPlants[index].water,
-                                humidity: ListPlants[index].humidity,
-                                description: ListPlants[index].description,
-                                size: ListPlants[index].size,
-                                temperature: ListPlants[index].temperature,
-                                imgUrl: ListPlants[index].imgUrl,
-                              )))
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PlantInfoScreen2(
+                        name: ListPlants[index].name,
+                        water: ListPlants[index].water,
+                        humidity: ListPlants[index].humidity,
+                        description: ListPlants[index].description,
+                        size: ListPlants[index].size,
+                        temperature: ListPlants[index].temperature,
+                        imgUrl: ListPlants[index].imgUrl,
+                      ),
+                    ),
+                  ),
                 },
                 child: Align(
                   alignment: Alignment(-1, 0),

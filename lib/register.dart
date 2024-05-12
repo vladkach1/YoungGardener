@@ -28,9 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _password2Controller = TextEditingController();
 
-  void _GoToAuth() {
-    Navigator.of(context).pushNamed('/mainScreen');
-  }
 
 // Функция для проверки введенных данных
   Future _validateAndRegister() async {

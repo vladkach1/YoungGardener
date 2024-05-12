@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:young_gardener/services/plant.dart';
 import 'DatabaseUser.dart';
 import 'User.dart';
 import 'package:firebase_auth/firebase_auth.dart';

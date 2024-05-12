@@ -6,7 +6,6 @@ import 'package:young_gardener/main-screen.dart';
 import 'package:young_gardener/screens/Auth.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
 import 'package:young_gardener/register.dart';
-import 'package:young_gardener/screens/plant_info_screen2.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:young_gardener/screens/wrapper.dart';
 import 'package:young_gardener/services/authindication.dart';

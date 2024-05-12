@@ -17,12 +17,12 @@ class AdditionalInformationOnWaterAndSun extends StatelessWidget {
           children: [
             _InfoItemWater(
               icon: Icons.water_drop,
-              title: 'Water',
+              title: 'Вода',
               value: waterAmount,
             ),
             _InfoItemSunshine(
               icon: Icons.sunny,
-              title: 'Sunshine',
+              title: 'Температура',
               value: sunshine,
             ),
           ],
