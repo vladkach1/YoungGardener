@@ -167,7 +167,9 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 53),
+                             SizedBox(
+                                child: Row(children: [Container(margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 100, top: 10, right: MediaQuery.of(context).size.width/ 100),)],),
+                              ),
                             ],
                           ),
                         ),
@@ -322,8 +324,8 @@ class _MainScreenState extends State<MainScreen> {
           ),
           SliverList.builder(
             itemBuilder: (context, index) => Container(
-              height: 53,
-              margin: EdgeInsets.only(left: 35, top: 10, right: 35),
+              height: MediaQuery.of(context).size.height/ 15,
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 14, top: 10, right: MediaQuery.of(context).size.width/ 15),
               child: ElevatedButton(
                 onPressed: _GoToInfo,
                 child: Align(
