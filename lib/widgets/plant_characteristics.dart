@@ -6,9 +6,19 @@ class PlantCharacteristics extends StatelessWidget {
   const PlantCharacteristics({
     Key? key,
     required this.textDescriptionStyle,
+    required this.water,
+    required this.humidity,
+    required this.temperature,
+    required this.size,
+    required this.imageUrl,
   }) : super(key: key);
 
   final TextStyle textDescriptionStyle;
+  final int water;
+  final int humidity;
+  final int size;
+  final int temperature;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -17,13 +27,13 @@ class PlantCharacteristics extends StatelessWidget {
         children: [
           Row(
             children: [
-              imageFromUrl("https://mykaleidoscope.ru/x/uploads/posts/2022-09/1663607184_36-mykaleidoscope-ru-p-petrushka-na-ogorode-instagram-41.jpg"),
+              imageFromUrl(imageUrl),
               SizedBox(width: 40),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Sunshine',
+                    'Температура',
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -34,14 +44,14 @@ class PlantCharacteristics extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        '16-18°C',
+                        temperature.toString() + " C°",
                         style: textDescriptionStyle,
                       ),
                     ],
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'Humidity',
+                    'Влажность',
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -52,14 +62,14 @@ class PlantCharacteristics extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        '80-85%',
+                        humidity.toString()+" %",
                         style: textDescriptionStyle,
                       ),
                     ],
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'Size',
+                    "Размер",
                     style: textDescriptionStyle,
                   ),
                   Row(
@@ -70,7 +80,7 @@ class PlantCharacteristics extends StatelessWidget {
                       ),
                       SizedBox(width: 15),
                       Text(
-                        '60-90 cm',
+                        size.toString()+" см",
                         style: textDescriptionStyle,
                       ),
                     ],

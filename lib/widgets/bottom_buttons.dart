@@ -1,56 +1,78 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BottomButtons extends StatelessWidget {
-  const BottomButtons({Key? key}) : super(key: key);
+  final String plantName;
+
+  const BottomButtons({
+    Key? key,
+    required this.plantName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                 Color(0xff4F8247), // Цвет фона кнопки
- // Цвет фона кнопки
-                ),
-              ),
-              onPressed: () {
-                // Действия для первой кнопки
-              },
-              child: Text(
-                'Уже есть',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 60),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                Color.fromARGB(255, 255, 52, 65), // Цвет фона кнопки
               ),
             ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  Color(0xffFA7171), // Цвет фона кнопки
- // Цвет фона кнопки
-                ),
-              ),
-              onPressed: () {
-                // Действия для второй кнопки
-              },
-              child: Text(
-                'Удалить',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+            onPressed: () => addPlant(context, plantName),
+            child: Text(
+              'Удалить',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void addPlant(BuildContext context, String name) async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Получаем ссылку на коллекцию растений текущего пользователя
+      CollectionReference userPlants = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('plants');
+
+      // Добавляем новое растение в коллекцию растений пользователя
+      await userPlants
+          .add({
+            'name': name,
+            'timestamp':
+                FieldValue.serverTimestamp(), // Добавляем временную метку
+          })
+          .then((value) => showSnackbar(context, 'Растение удалено'))
+          .catchError((error) {
+            // Обрабатываем ошибку
+            print('Failed to add plant: $error');
+            showSnackbar(context, 'Ошибка при удалении растения');
+          });
+    } else {
+      // Если пользователь не аутентифицирован, показываем сообщение
+      showSnackbar(
+          context, 'Пожалуйста, войдите в систему для добавления растений');
+    }
+  }
+
+  void showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 3),
       ),
     );
   }
