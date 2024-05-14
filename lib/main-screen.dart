@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,18 +7,81 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-List<Plant> _userPlants = [];
+
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
+
+  @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   final AuthService _auth = AuthService();
+  List<Plant> _userPlants = [];
 
+  @override
+  void initState() {
+    super.initState();
+    fetchAndDisplayUserPlants();
+  }
+
+  // Создаем метод для загрузки данных о растениях из файла
+  Future<Map<String, Plant>> loadPlantsData() async {
+    String fileData = await rootBundle.loadString('assets/plants.txt');
+    List<String> lines = fileData.split("\n");
+    Map<String, Plant> plantsData = {};
+
+    for (var line in lines) {
+      if (line.isNotEmpty) {
+        Plant plant = Plant.fromTxtData(line);
+        plantsData[plant.name] = plant;
+      }
+    }
+
+    return plantsData;
+  }
+
+  // Создаем метод для получения имен растений из Firestore и их дальнейшего использования
+  void fetchAndDisplayUserPlants() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Получаем имена растений пользователя из Firestore
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('plants')
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+            // Загружаем данные о растениях из файла
+            Map<String, Plant> plantsData = await loadPlantsData();
+
+            List<Plant> userPlants = [];
+
+            for (var doc in querySnapshot.docs) {
+              var data = doc.data() as Map<String, dynamic>;
+              String plantName = data['name'];
+
+              // Используем имя растения для получения полной информации о растении из файла
+              if (plantsData.containsKey(plantName)) {
+                userPlants.add(plantsData[plantName]!);
+              }
+            }
+
+            // Обновляем UI
+            setState(() {
+              _userPlants = userPlants;
+            });
+          })
+          .catchError((error) {
+            print("Error fetching user plants: $error");
+          });
+    }
+  }
 
   List<Plant> getUserPlants() {
     return _userPlants;
