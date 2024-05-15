@@ -22,11 +22,22 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final AuthService _auth = AuthService();
   List<Plant> _userPlants = [];
+  String? username;
 
   @override
   void initState() {
     super.initState();
     fetchAndDisplayUserPlants();
+    getCurrentUsername();
+  }
+
+  void getCurrentUsername() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        username = user.displayName; 
+      });
+    }
   }
 
   // Создаем метод для загрузки данных о растениях из файла
@@ -313,7 +324,7 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Здравствуйте,\nUserName!',
+                  'Здравствуйте,\n${username ?? "Гость"}!',
                   style: GoogleFonts.inder(
                     fontSize: 27,
                     color: Colors.black,
