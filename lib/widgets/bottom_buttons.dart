@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+String? id=null;
 
 class BottomButtons extends StatelessWidget {
   final String plantName;
@@ -23,7 +27,7 @@ class BottomButtons extends StatelessWidget {
                 Color.fromARGB(255, 255, 52, 65), // Цвет фона кнопки
               ),
             ),
-            onPressed: () => addPlant(context, plantName),
+            onPressed: () => deletePlant(context, plantName),
             child: Text(
               'Удалить',
               style: TextStyle(
@@ -38,29 +42,35 @@ class BottomButtons extends StatelessWidget {
     );
   }
 
-  void addPlant(BuildContext context, String name) async {
+//НИХУЯ НЕ РАБОТАЕТ НУ Я ПЫТАЛСЯ МБ ТПАЯ ОШИБКА НЕ МОГУ ДУМАТЬ
+  void deletePlant(BuildContext context, String name,) async {
     User? user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
+      print('говно');
       // Получаем ссылку на коллекцию растений текущего пользователя
-      CollectionReference userPlants = FirebaseFirestore.instance
+       FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .collection('plants');
+          .collection('plants').get().then((querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          print(doc.data()['name']);
+          print('1');
+          print(name);
+          print('2');
+          if (doc.data()['name']==name) //ДОБАВИТЬ ПРОВЕРКУ ПО ДАТЕ ДОБАВЛЕНИЯ
+            {
+              id=doc.id;
+            }
+        });
+      });
+      print(id);
+       // удаление
+       await FirebaseFirestore.instance
+           .collection('users')
+           .doc(user.uid)
+           .collection('plants').doc(id).delete();
+      print('говно12');
 
-      // Добавляем новое растение в коллекцию растений пользователя
-      await userPlants
-          .add({
-            'name': name,
-            'timestamp':
-                FieldValue.serverTimestamp(), // Добавляем временную метку
-          })
-          .then((value) => showSnackbar(context, 'Растение удалено'))
-          .catchError((error) {
-            // Обрабатываем ошибку
-            print('Failed to add plant: $error');
-            showSnackbar(context, 'Ошибка при удалении растения');
-          });
     } else {
       // Если пользователь не аутентифицирован, показываем сообщение
       showSnackbar(
