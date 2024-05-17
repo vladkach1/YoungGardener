@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
     if (user != null) {
       FirebaseFirestore.instance.collection('userCollection').doc(user.uid).get().then((DocumentSnapshot document) async {
         print(document['username'].toString());
-        String? username = document['username'].toString();
+        username = document['username'].toString();
         print(username);
       });
 
