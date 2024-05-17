@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
+import 'package:young_gardener/screens/plant_info_screen2.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,16 +29,22 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    fetchAndDisplayUserPlants();
-    getCurrentUsername();
+    //fetchAndDisplayUserPlants();
+    //getCurrentUsername();
   }
 
   void getCurrentUsername() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      setState(() {
-        username = user.displayName; 
+      FirebaseFirestore.instance.collection('userCollection').doc(user.uid).get().then((DocumentSnapshot document) async {
+        print(document['username'].toString());
+        String? username = document['username'].toString();
+        print(username);
       });
+
+      //setState(() {
+      //  username = user.displayName;
+      //});
     }
   }
 
@@ -289,10 +297,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+
+
   bool isIconButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
+    getCurrentUsername();
+    fetchAndDisplayUserPlants();
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -403,11 +415,26 @@ class _MainScreenState extends State<MainScreen> {
               height: MediaQuery.of(context).size.height/ 15,
               margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 14, top: 10, right: MediaQuery.of(context).size.width/ 15),
               child: ElevatedButton(
-                onPressed: _GoToInfo,
+                onPressed: () => {
+                  Navigator.pushReplacement(
+                    context,
+                      MaterialPageRoute(
+    builder: (context) => PlantInfoScreen(
+    name: _userPlants[index].name,
+    water: _userPlants[index].water,
+    humidity: _userPlants[index].humidity,
+    description: _userPlants[index].description,
+    size: _userPlants[index].size,
+    temperature: _userPlants[index].temperature,
+    imgUrl: _userPlants[index].imgUrl,
+    ),
+    ),
+    ),
+    },
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
-                    (index + 1).toString() + ' ' + _namePlans(index),
+                    (index + 1).toString() + ' ' + _userPlants[index].name,
                     style: GoogleFonts.inder(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -417,7 +444,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            itemCount: 1,
+            itemCount: _userPlants.length,
           ),
           _remind(),
           _remindList(),
