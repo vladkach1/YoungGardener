@@ -70,37 +70,48 @@ class _MainScreenState extends State<MainScreen> {
     return plantsData;
   }
 
-  // Создаем метод для получения имен растений из Firestore и их дальнейшего использования
   void fetchAndDisplayUserPlants() async {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      // Получаем имена растений пользователя из Firestore
       FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
           .collection('plants')
           .get()
           .then((QuerySnapshot querySnapshot) async {
-        // Загружаем данные о растениях из файла
         Map<String, Plant> plantsData = await loadPlantsData();
 
         List<Plant> userPlants = [];
+        List<String> reminders = [];
 
         for (var doc in querySnapshot.docs) {
           var data = doc.data() as Map<String, dynamic>;
           String plantName = data['name'];
+          Timestamp? plantAddedTime = data['timestamp'] as Timestamp?;
 
-          // Используем имя растения для получения полной информации о растении из файла
-          if (plantsData.containsKey(plantName)) {
-            userPlants.add(plantsData[plantName]!);
+          if (plantAddedTime != null) {
+            DateTime addedTime = plantAddedTime.toDate();
+            DateTime currentTime = DateTime.now();
+
+            if (currentTime.difference(addedTime).inSeconds >= 15) {
+              // Добавьте уведомление в список reminders
+              reminders.add('Пора полить $plantName');
+            }
+
+            if (plantsData.containsKey(plantName)) {
+              Plant plant = plantsData[plantName]!;
+              userPlants.add(plant);
+            }
+          } else {
+            print('Timestamp is not available for plant: $plantName');
           }
         }
 
-        // Обновляем UI
         if (mounted) {
           setState(() {
             _userPlants = userPlants;
+            remindList = reminders;
           });
         }
       }).catchError((error) {
@@ -121,10 +132,6 @@ class _MainScreenState extends State<MainScreen> {
     _userPlants.removeAt(index);
   }
 
-  void _GoToInfo() {
-    Navigator.of(context).pushNamed('/Info');
-  }
-
   void GetListOfPlants() async {
     try {
       List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
@@ -142,11 +149,6 @@ class _MainScreenState extends State<MainScreen> {
       GetListOfPlants();
     }
     Navigator.of(context).pushNamed('/Search');
-  }
-
-  String _namePlans(int i) {
-    List<String> Plans = [' Петрушка кудрявая', ' Алоэ вера'];
-    return Plans[i];
   }
 
   List<String> remindList = ['Напоминание'];
@@ -319,31 +321,31 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void showSignOutConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Выход из аккаунта'),
-        content: Text('Вы уверены, что хотите выйти из аккаунта?'),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Отмена'),
-            onPressed: () {
-              Navigator.of(context).pop(); // Закрыть диалог
-            },
-          ),
-          TextButton(
-            child: Text('Выйти'),
-            onPressed: () async {
-              await _auth.signOut();
-              Navigator.of(context).pop(); 
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Выход из аккаунта'),
+          content: Text('Вы уверены, что хотите выйти из аккаунта?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Отмена'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Закрыть диалог
+              },
+            ),
+            TextButton(
+              child: Text('Выйти'),
+              onPressed: () async {
+                await _auth.signOut();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   bool isIconButtonPressed = false;
 
