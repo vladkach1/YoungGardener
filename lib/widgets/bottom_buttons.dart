@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-String? id=null;
+String? id = null;
 
 class BottomButtons extends StatelessWidget {
   final String plantName;
@@ -43,38 +41,40 @@ class BottomButtons extends StatelessWidget {
   }
 
 //НИХУЯ НЕ РАБОТАЕТ НУ Я ПЫТАЛСЯ МБ ТПАЯ ОШИБКА НЕ МОГУ ДУМАТЬ
-  void deletePlant(BuildContext context, String name,) async {
+  void deletePlant(BuildContext context, String name) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      print('говно');
       // Получаем ссылку на коллекцию растений текущего пользователя
-       FirebaseFirestore.instance
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .collection('plants').get().then((querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          print(doc.data()['name']);
-          print('1');
-          print(name);
-          print('2');
-          if (doc.data()['name']==name) //ДОБАВИТЬ ПРОВЕРКУ ПО ДАТЕ ДОБАВЛЕНИЯ
-            {
-              id=doc.id;
-            }
-        });
-      });
-      print(id);
-       // удаление
-       await FirebaseFirestore.instance
-           .collection('users')
-           .doc(user.uid)
-           .collection('plants').doc(id).delete();
-      print('говно12');
+          .collection('plants')
+          .where('name', isEqualTo: name)
+          // Добавьте .where для других полей, если нужно делать проверку по дате или другим параметрам
+          .get();
 
+      // Если растение найдено, удаляем его
+      if (querySnapshot.docs.isNotEmpty) {
+        // Ваш комментарий указывает на необходимость проверки по дате, поэтому
+        // здесь вам нужно будет добавить логику фильтрации, если в коллекции есть несколько документов с одинаковым именем
+        String docId = querySnapshot
+            .docs.first.id; // Берем ID первого найденного документа
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('plants')
+            .doc(docId)
+            .delete()
+            .then((_) => showSnackbar(context, 'Растение удалено'))
+            .catchError((error) =>
+                showSnackbar(context, 'Ошибка при удалении растения: $error'));
+      } else {
+        showSnackbar(context, 'Растение не найдено');
+      }
     } else {
       // Если пользователь не аутентифицирован, показываем сообщение
       showSnackbar(
-          context, 'Пожалуйста, войдите в систему для добавления растений');
+          context, 'Пожалуйста, войдите в систему для удаления растений');
     }
   }
 

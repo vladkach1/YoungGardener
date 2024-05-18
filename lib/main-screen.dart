@@ -11,9 +11,6 @@ import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
-
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
 
@@ -29,22 +26,32 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    //fetchAndDisplayUserPlants();
-    //getCurrentUsername();
+    fetchAndDisplayUserPlants();
+    getCurrentUsername();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void getCurrentUsername() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      FirebaseFirestore.instance.collection('userCollection').doc(user.uid).get().then((DocumentSnapshot document) async {
-        print(document['username'].toString());
-        username = document['username'].toString();
-        print(username);
+      FirebaseFirestore.instance
+          .collection('userCollection')
+          .doc(user.uid)
+          .get()
+          .then((DocumentSnapshot document) {
+        // Only call setState if the widget is still in the widget tree
+        if (mounted) {
+          setState(() {
+            print(document['username'].toString());
+            username = document['username'].toString();
+            print(username);
+          });
+        }
       });
-
-      //setState(() {
-      //  username = user.displayName;
-      //});
     }
   }
 
@@ -76,29 +83,30 @@ class _MainScreenState extends State<MainScreen> {
           .collection('plants')
           .get()
           .then((QuerySnapshot querySnapshot) async {
-            // Загружаем данные о растениях из файла
-            Map<String, Plant> plantsData = await loadPlantsData();
+        // Загружаем данные о растениях из файла
+        Map<String, Plant> plantsData = await loadPlantsData();
 
-            List<Plant> userPlants = [];
+        List<Plant> userPlants = [];
 
-            for (var doc in querySnapshot.docs) {
-              var data = doc.data() as Map<String, dynamic>;
-              String plantName = data['name'];
+        for (var doc in querySnapshot.docs) {
+          var data = doc.data() as Map<String, dynamic>;
+          String plantName = data['name'];
 
-              // Используем имя растения для получения полной информации о растении из файла
-              if (plantsData.containsKey(plantName)) {
-                userPlants.add(plantsData[plantName]!);
-              }
-            }
+          // Используем имя растения для получения полной информации о растении из файла
+          if (plantsData.containsKey(plantName)) {
+            userPlants.add(plantsData[plantName]!);
+          }
+        }
 
-            // Обновляем UI
-            setState(() {
-              _userPlants = userPlants;
-            });
-          })
-          .catchError((error) {
-            print("Error fetching user plants: $error");
+        // Обновляем UI
+        if (mounted) {
+          setState(() {
+            _userPlants = userPlants;
           });
+        }
+      }).catchError((error) {
+        print("Error fetching user plants: $error");
+      });
     }
   }
 
@@ -117,7 +125,6 @@ class _MainScreenState extends State<MainScreen> {
   void _GoToInfo() {
     Navigator.of(context).pushNamed('/Info');
   }
-
 
   void GetListOfPlants() async {
     try {
@@ -251,8 +258,23 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ],
                               ),
-                             SizedBox(
-                                child: Row(children: [Container(margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 100, top: 10, right: MediaQuery.of(context).size.width/ 100),)],),
+                              SizedBox(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              100,
+                                          top: 10,
+                                          right: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              100),
+                                    )
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -296,8 +318,6 @@ class _MainScreenState extends State<MainScreen> {
       itemCount: 1,
     );
   }
-
-
 
   bool isIconButtonPressed = false;
 
@@ -412,25 +432,28 @@ class _MainScreenState extends State<MainScreen> {
           ),
           SliverList.builder(
             itemBuilder: (context, index) => Container(
-              height: MediaQuery.of(context).size.height/ 15,
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 14, top: 10, right: MediaQuery.of(context).size.width/ 15),
+              height: MediaQuery.of(context).size.height / 15,
+              margin: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 14,
+                  top: 10,
+                  right: MediaQuery.of(context).size.width / 15),
               child: ElevatedButton(
                 onPressed: () => {
                   Navigator.pushReplacement(
                     context,
-                      MaterialPageRoute(
-    builder: (context) => PlantInfoScreen(
-    name: _userPlants[index].name,
-    water: _userPlants[index].water,
-    humidity: _userPlants[index].humidity,
-    description: _userPlants[index].description,
-    size: _userPlants[index].size,
-    temperature: _userPlants[index].temperature,
-    imgUrl: _userPlants[index].imgUrl,
-    ),
-    ),
-    ),
-    },
+                    MaterialPageRoute(
+                      builder: (context) => PlantInfoScreen(
+                        name: _userPlants[index].name,
+                        water: _userPlants[index].water,
+                        humidity: _userPlants[index].humidity,
+                        description: _userPlants[index].description,
+                        size: _userPlants[index].size,
+                        temperature: _userPlants[index].temperature,
+                        imgUrl: _userPlants[index].imgUrl,
+                      ),
+                    ),
+                  ),
+                },
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
