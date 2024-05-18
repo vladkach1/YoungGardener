@@ -31,7 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
 // Функция для проверки введенных данных
   Future _validateAndRegister() async {
-    if ((email!='') && (password.length >6) && (password == password1) && (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))) {
+    if ((email!='') && (password.length >=6) && (password == password1) && (RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$').hasMatch(email))) {
       _register();
     }
     else if (email=='')
@@ -43,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
     {
       _showErrorDialog("Ошибка", "Некорректный email");
     }
-    else if (password.length <=6)
+    else if (password.length <6)
     {
       _showErrorDialog("Ошибка", "Пароль должен содержать не менее 6 символов");
     }

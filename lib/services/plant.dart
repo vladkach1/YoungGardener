@@ -20,23 +20,29 @@ class Plant {
   });
 
   factory Plant.fromTxtData(String line) {
-  // Разделяем данные о растении и описание
   final parts = line.split('|');
-  final description = parts[1].trim(); // Убираем пробельные символы по краям, если они есть
+  final description = parts[1].trim();
   final dataParts = parts[0].split(',');
-  final imgUrl = dataParts.last.split(' ')[1].trim(); // Получаем URL изображения, который всегда последний
-  // Удаляем часть с URL изображения, чтобы она не мешала парсингу остальных данных
+  final imgUrl = dataParts.last.split(' ')[1].trim();
   dataParts.removeLast();
+
   Map<String, String> dataMap = {
     for (var part in dataParts)
       part.split(RegExp(r'\s'))[0].trim(): part.split(RegExp(r'\s'))[1].trim(),
   };
+
+  // Добавляем проверку на null и устанавливаем значение по умолчанию, если данные отсутствуют
+  int water = dataMap.containsKey('Воды') && dataMap['Воды'] != null ? int.parse(dataMap['Воды']!) : 0;
+  int humidity = dataMap.containsKey('Влажность') && dataMap['Влажность'] != null ? int.parse(dataMap['Влажность']!) : 0;
+  int size = dataMap.containsKey('Размер') && dataMap['Размер'] != null ? int.parse(dataMap['Размер']!) : 0;
+  int temperature = dataMap.containsKey('Температура') && dataMap['Температура'] != null ? int.parse(dataMap['Температура']!) : 0;
+
   return Plant(
     name: dataMap.keys.first,
-    water: int.parse(dataMap['Воды']!),
-    humidity: int.parse(dataMap['Влажность']!),
-    size: int.parse(dataMap['Размер']!),
-    temperature: int.parse(dataMap['Температура']!),
+    water: water,
+    humidity: humidity,
+    size: size,
+    temperature: temperature,
     imgUrl: imgUrl,
     description: description,
   );

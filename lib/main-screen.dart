@@ -1,22 +1,106 @@
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
+import 'package:young_gardener/screens/plant_info_screen.dart';
+import 'package:young_gardener/screens/plant_info_screen2.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-List<Plant> _userPlants = [];
+
 
 class MainScreen extends StatefulWidget {
   static const mainScreen = "/mainScreen";
+
+  @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
   final AuthService _auth = AuthService();
+  List<Plant> _userPlants = [];
+  String? username;
 
+  @override
+  void initState() {
+    super.initState();
+    //fetchAndDisplayUserPlants();
+    //getCurrentUsername();
+  }
+
+  void getCurrentUsername() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      FirebaseFirestore.instance.collection('userCollection').doc(user.uid).get().then((DocumentSnapshot document) async {
+        print(document['username'].toString());
+        username = document['username'].toString();
+        print(username);
+      });
+
+      //setState(() {
+      //  username = user.displayName;
+      //});
+    }
+  }
+
+  // Создаем метод для загрузки данных о растениях из файла
+  Future<Map<String, Plant>> loadPlantsData() async {
+    String fileData = await rootBundle.loadString('assets/plants.txt');
+    List<String> lines = fileData.split("\n");
+    Map<String, Plant> plantsData = {};
+
+    for (var line in lines) {
+      if (line.isNotEmpty) {
+        Plant plant = Plant.fromTxtData(line);
+        plantsData[plant.name] = plant;
+      }
+    }
+
+    return plantsData;
+  }
+
+  // Создаем метод для получения имен растений из Firestore и их дальнейшего использования
+  void fetchAndDisplayUserPlants() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Получаем имена растений пользователя из Firestore
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('plants')
+          .get()
+          .then((QuerySnapshot querySnapshot) async {
+            // Загружаем данные о растениях из файла
+            Map<String, Plant> plantsData = await loadPlantsData();
+
+            List<Plant> userPlants = [];
+
+            for (var doc in querySnapshot.docs) {
+              var data = doc.data() as Map<String, dynamic>;
+              String plantName = data['name'];
+
+              // Используем имя растения для получения полной информации о растении из файла
+              if (plantsData.containsKey(plantName)) {
+                userPlants.add(plantsData[plantName]!);
+              }
+            }
+
+            // Обновляем UI
+            setState(() {
+              _userPlants = userPlants;
+            });
+          })
+          .catchError((error) {
+            print("Error fetching user plants: $error");
+          });
+    }
+  }
 
   List<Plant> getUserPlants() {
     return _userPlants;
@@ -167,7 +251,9 @@ class _MainScreenState extends State<MainScreen> {
                                   ),
                                 ],
                               ),
-                              SizedBox(width: 53),
+                             SizedBox(
+                                child: Row(children: [Container(margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 100, top: 10, right: MediaQuery.of(context).size.width/ 100),)],),
+                              ),
                             ],
                           ),
                         ),
@@ -211,10 +297,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+
+
   bool isIconButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
+    getCurrentUsername();
+    fetchAndDisplayUserPlants();
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -246,7 +336,7 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Здравствуйте,\nUserName!',
+                  'Здравствуйте,\n${username ?? "Гость"}!',
                   style: GoogleFonts.inder(
                     fontSize: 27,
                     color: Colors.black,
@@ -322,14 +412,29 @@ class _MainScreenState extends State<MainScreen> {
           ),
           SliverList.builder(
             itemBuilder: (context, index) => Container(
-              height: 53,
-              margin: EdgeInsets.only(left: 35, top: 10, right: 35),
+              height: MediaQuery.of(context).size.height/ 15,
+              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width/ 14, top: 10, right: MediaQuery.of(context).size.width/ 15),
               child: ElevatedButton(
-                onPressed: _GoToInfo,
+                onPressed: () => {
+                  Navigator.pushReplacement(
+                    context,
+                      MaterialPageRoute(
+    builder: (context) => PlantInfoScreen(
+    name: _userPlants[index].name,
+    water: _userPlants[index].water,
+    humidity: _userPlants[index].humidity,
+    description: _userPlants[index].description,
+    size: _userPlants[index].size,
+    temperature: _userPlants[index].temperature,
+    imgUrl: _userPlants[index].imgUrl,
+    ),
+    ),
+    ),
+    },
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
-                    (index + 1).toString() + ' ' + _namePlans(index),
+                    (index + 1).toString() + ' ' + _userPlants[index].name,
                     style: GoogleFonts.inder(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
@@ -339,7 +444,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
-            itemCount: 1,
+            itemCount: _userPlants.length,
           ),
           _remind(),
           _remindList(),

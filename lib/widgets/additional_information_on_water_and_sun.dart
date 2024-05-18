@@ -14,19 +14,21 @@ class AdditionalInformationOnWaterAndSun extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Row(
-          children: [
-            _InfoItemWater(
-              icon: Icons.water_drop,
-              title: 'Вода',
-              value: waterAmount,
-            ),
-            _InfoItemSunshine(
-              icon: Icons.sunny,
-              title: 'Температура',
-              value: sunshine,
-            ),
-          ],
-        ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _InfoItemWater(
+            icon: Icons.water_drop,
+            title: 'Вода',
+            value: waterAmount,
+          ),
+          
+          _InfoItemSunshine(
+            icon: Icons.sunny,
+            title: 'Температура',
+            value: sunshine,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -47,9 +49,6 @@ class _InfoItemWater extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-      ),
       child: Column(
         children: [
           Row(
@@ -70,7 +69,7 @@ class _InfoItemWater extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            value.toString()+" мл",
+            value.toString() + " мл",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13,
@@ -98,9 +97,6 @@ class _InfoItemSunshine extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
-      ),
       child: Column(
         children: [
           Row(
@@ -121,7 +117,7 @@ class _InfoItemSunshine extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            value.toString()+"°С",
+            value.toString() + "°С",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 13,

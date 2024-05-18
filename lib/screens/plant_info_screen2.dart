@@ -156,16 +156,27 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
               textDescriptionStyle: textDescriptionStyle,
               textDescription: widget.description,
             ),
+            SliverToBoxAdapter(child: SizedBox(height: 40)),
+            SliverToBoxAdapter(
+              child: Divider(
+                color: Colors.black,
+                thickness: 0.6,
+                height: 0.8,
+              ),
+            ),
             SliverToBoxAdapter(child: SizedBox(height: 20)),
             AdditionalInformationOnWaterAndSun(
               waterAmount: widget.water,
               sunshine: widget.temperature,
             ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
-            BottomButtons2(),
             SliverToBoxAdapter(child: SizedBox(height: 45)),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 20), // Отступ снизу
+        child: BottomButtons2(plantName: widget.name), // Твой виджет кнопок
       ),
     );
   }

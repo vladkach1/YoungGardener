@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:young_gardener/services/plant.dart';
 class DatabaseUser {
 
   final String uid;
@@ -10,16 +9,17 @@ class DatabaseUser {
   final CollectionReference userCollection = FirebaseFirestore.instance
       .collection('userCollection');
 
-  Future<void> addUserData(String name, List<Plant> pants) async {
+  Future<void> addUserData(String name) async {
     return await userCollection.doc(uid).set({
       'username': name,
-      'pants': pants,
     }).onError((e, _) => print("Error writing document1: $e"));
   }
-  Future<void> updateUserData(Plant plant) async {
-    return await userCollection.doc(uid).set({
-    }).onError((e, _) => print("Error writing document1: $e"));
-  }
+  
+  Future<void> updateUserData(String field, dynamic value) async {
+  return await userCollection.doc(uid).update({
+    field: value,
+  }).onError((e, _) => print("Error updating document: $e"));
+}
   Stream<QuerySnapshot> get users {
     return userCollection.snapshots();
   }

@@ -5,10 +5,29 @@ import 'package:young_gardener/widgets/bottom_buttons.dart';
 import 'package:young_gardener/widgets/additional_information_on_water_and_sun.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PlantInfoScreen extends StatefulWidget {
   static const infoScreen = "/infoScreen";
+
+  final String name;
+  final int water;
+  final int humidity;
+  final int size;
+  final int temperature;
+  final String imgUrl;
+  final String description;
+
+  const PlantInfoScreen({
+    Key? key,
+    required this.name,
+    required this.water,
+    required this.humidity,
+    required this.size,
+    required this.temperature,
+    required this.imgUrl,
+    required this.description,
+  }) : super(key: key);
+
   @override
   _PlantInfoScreenState createState() => _PlantInfoScreenState();
 }
@@ -72,7 +91,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 7),
                 child: Text(
-                  'Петрушка кудрявая',
+                  widget.name,
                   style: GoogleFonts.inder(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -87,7 +106,7 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).pushNamed('/');
             },
           ),
         ),
@@ -103,112 +122,61 @@ class _PlantInfoScreenState extends State<PlantInfoScreen> {
               ),
             ),
             PlantCharacteristics(
-                textDescriptionStyle: textCharacteristicsStyle),
+              textDescriptionStyle: textCharacteristicsStyle,
+              imageUrl: widget.imgUrl,
+              water: widget.water,
+              humidity: widget.humidity,
+              temperature: widget.temperature,
+              size: widget.size,
+            ),
             SliverToBoxAdapter(child: SizedBox(height: 40)),
-            PlantDescription(textDescriptionStyle: textDescriptionStyle),
-            SliverToBoxAdapter(child: SizedBox(height: 10)),
             SliverToBoxAdapter(
               child: Column(
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset('assets/icons/notification.svg'),
+                      Icon(Icons.search,
+                          color: const Color.fromARGB(255, 168, 209, 161)),
                       SizedBox(
                         width: 10,
                       ),
                       Text(
-                        'Напоминания',
+                        'Обзор растения',
                         style: GoogleFonts.inter(fontSize: 20),
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  //Напоминание 1
-                  Slidable(
-                    startActionPane: ActionPane(
-                      extentRatio: 0.15,
-                      closeThreshold: 0.9,
-                      motion: BehindMotion(),
-                      children: [
-                        Container(
-                          child: SvgPicture.asset('assets/icons/checkmark.svg'),
-                          padding: EdgeInsets.only(
-                              top: 20, bottom: 20, left: 9, right: 10),
-                          decoration: BoxDecoration(
-                            color: Color(0xff54AD45),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(top: 5, bottom: 5, left: 10),
-                          decoration: BoxDecoration(
-                            color: Color(0xffC7C4C4),
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  SvgPicture.asset('assets/icons/plant2.svg'),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Петрушка кудрявая',
-                                    style: GoogleFonts.inika(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Растение нужно полить (150мл)',
-                                    style: GoogleFonts.inter(fontSize: 10),
-                                  )
-                                ],
-                              ),
-                              SizedBox(width: 53),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
                   ),
                 ],
               ),
             ),
+            PlantDescription(
+              textDescriptionStyle: textDescriptionStyle,
+              textDescription: widget.description,
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 40)),
+            SliverToBoxAdapter(
+              child: Divider(
+                color: Colors.black,
+                thickness: 0.6,
+                height: 0.8,
+              ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 20)),
             AdditionalInformationOnWaterAndSun(
-              waterAmount: 150,
-              sunshine: 16,
+              waterAmount: widget.water,
+              sunshine: widget.temperature,
             ),
             SliverToBoxAdapter(child: SizedBox(height: 10)),
-            BottomButtons(),
             SliverToBoxAdapter(child: SizedBox(height: 45)),
           ],
         ),
+      ),
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.only(bottom: 20), // Отступ снизу
+        child: BottomButtons(plantName: widget.name), // Твой виджет кнопок
       ),
     );
   }

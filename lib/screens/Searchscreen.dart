@@ -12,6 +12,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 List<Plant> ListPlants = [];
+List<Plant> allPlants = [];
 
 ///Доделать мб посмотри крч хз (Кирилл)
 class _SearchScreenState extends State<SearchScreen> {
@@ -19,6 +20,8 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     initialization();
+
+    allPlants.addAll(ListPlants);
   }
 
   void initialization() async {
@@ -28,11 +31,9 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
 
   void filterSearchResults(String query) {
-    List<Plant> dummySearchList = [];
-    dummySearchList.addAll(ListPlants);
     if (query.isNotEmpty) {
       List<Plant> dummyListData = [];
-      dummySearchList.forEach((item) {
+      allPlants.forEach((item) {
         if (item.name.toLowerCase().contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
@@ -41,11 +42,10 @@ class _SearchScreenState extends State<SearchScreen> {
         ListPlants.clear();
         ListPlants.addAll(dummyListData);
       });
-      return;
     } else {
       setState(() {
         ListPlants.clear();
-        ListPlants.addAll(ListPlants);
+        ListPlants.addAll(allPlants); // Восстанавливаем все растения
       });
     }
   }
