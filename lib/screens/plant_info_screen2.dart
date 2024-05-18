@@ -106,7 +106,7 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).pushNamed('/Search');
             },
           ),
         ),

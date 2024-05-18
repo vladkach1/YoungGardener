@@ -40,7 +40,6 @@ class BottomButtons extends StatelessWidget {
     );
   }
 
-//НИХУЯ НЕ РАБОТАЕТ НУ Я ПЫТАЛСЯ МБ ТПАЯ ОШИБКА НЕ МОГУ ДУМАТЬ
   void deletePlant(BuildContext context, String name) async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {

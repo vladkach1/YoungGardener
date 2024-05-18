@@ -127,7 +127,7 @@ class _SearchScreenState extends State<SearchScreen> {
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).pushNamed('/');
             },
           ),
         ),
