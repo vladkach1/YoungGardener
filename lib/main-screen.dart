@@ -336,9 +336,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Text('Выйти'),
             onPressed: () async {
               await _auth.signOut();
-              Navigator.of(context).pop(); // Закрыть диалог
-              // Здесь вы можете добавить переход на экран входа в аккаунт
-              // например, используя Navigator.pushReplacementNamed(context, '/login');
+              Navigator.of(context).pop(); 
             },
           ),
         ],
