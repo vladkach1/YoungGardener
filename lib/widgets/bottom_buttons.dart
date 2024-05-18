@@ -50,7 +50,6 @@ class BottomButtons extends StatelessWidget {
           .doc(user.uid)
           .collection('plants')
           .where('name', isEqualTo: name)
-          // Добавьте .where для других полей, если нужно делать проверку по дате или другим параметрам
           .get();
 
       // Если растение найдено, удаляем его

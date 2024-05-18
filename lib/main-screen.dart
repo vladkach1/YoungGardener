@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:young_gardener/screens/Searchscreen.dart';
 import 'package:young_gardener/screens/plant_info_screen.dart';
-import 'package:young_gardener/screens/plant_info_screen2.dart';
 import 'package:young_gardener/services/plant.dart';
 import 'services/authindication.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -319,6 +318,35 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  void showSignOutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Выход из аккаунта'),
+        content: Text('Вы уверены, что хотите выйти из аккаунта?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Отмена'),
+            onPressed: () {
+              Navigator.of(context).pop(); // Закрыть диалог
+            },
+          ),
+          TextButton(
+            child: Text('Выйти'),
+            onPressed: () async {
+              await _auth.signOut();
+              Navigator.of(context).pop(); // Закрыть диалог
+              // Здесь вы можете добавить переход на экран входа в аккаунт
+              // например, используя Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
   bool isIconButtonPressed = false;
 
   @override
@@ -371,8 +399,7 @@ class _MainScreenState extends State<MainScreen> {
           child: IconButton(
             icon: Icon(Icons.logout),
             onPressed: () async {
-              //Navigator.pop(context);
-              await _auth.signOut();
+              showSignOutConfirmationDialog(context);
             },
           ),
         ),
