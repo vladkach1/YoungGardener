@@ -157,11 +157,10 @@ class _MainScreenState extends State<MainScreen> {
       child: Padding(
         padding: const EdgeInsets.only(left: 35),
         child: Column(
-          children: remindList.isEmpty
+          children: _userPlants.isEmpty
               ? [
                   // Если список пуст, выводим сообщение
                   Container(
-                    ///margin: EdgeInsets.only(left: 10, top: 10),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     decoration: BoxDecoration(
                       color: Color(0xffC7C4C4),
@@ -181,116 +180,94 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                   ),
                 ]
-              : List.generate(remindList.length, (index) {
-                  return Slidable(
-                    startActionPane: ActionPane(
-                      extentRatio: 0.15,
-                      closeThreshold: 0.9,
-                      motion: BehindMotion(),
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Удаление напоминания из списка при нажатии зеленой кнопки
-                            setState(() {
-                              remindList.removeAt(index);
-                            });
-                          },
-                          child: Container(
-                            child:
-                                SvgPicture.asset('assets/icons/checkmark.svg'),
-                            padding: EdgeInsets.only(
-                              top: 20,
-                              bottom: 20,
-                              left: 9,
-                              right: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color(0xff54AD45),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 33),
-                          margin: EdgeInsets.only(right: 20),
-                          decoration: BoxDecoration(
-                            color: Color(0xffC7C4C4),
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  SvgPicture.asset('assets/icons/plant2.svg'),
-                                ],
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Петрушка кудрявая',
-                                    style: GoogleFonts.inika(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Растение нужно полить (150мл)',
-                                    style: GoogleFonts.inter(fontSize: 10),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              100,
-                                          top: 10,
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              100),
-                                    )
-                                  ],
+              : List.generate(_userPlants.length, (index) {
+                  return Column(
+                    children: [
+                      Slidable(
+                        startActionPane: ActionPane(
+                          extentRatio: 0.15,
+                          closeThreshold: 0.9,
+                          motion: BehindMotion(),
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // Удаление напоминания из списка при нажатии зеленой кнопки
+                                setState(() {
+                                  _userPlants.removeAt(index);
+                                });
+                              },
+                              child: Container(
+                                child:
+                                    SvgPicture.asset('assets/icons/checkmark.svg'),
+                                padding: EdgeInsets.only(
+                                  top: 20,
+                                  bottom: 20,
+                                  left: 9,
+                                  right: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xff54AD45),
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        // Switch(
-                        //   thumbIcon: thumbIcon,
-                        //   value: light1,
-                        //   onChanged: (bool value) {
-                        //     setState(() {
-                        //       light1 = value;
-                        //     });
-                        //   },
-                        // ),
-                      ],
-                    ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding:
+                                  EdgeInsets.symmetric(vertical: 5, horizontal: 33),
+                              margin: EdgeInsets.only(right: 20),
+                              decoration: BoxDecoration(
+                                color: Color(0xffC7C4C4),
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      SvgPicture.asset('assets/icons/plant2.svg'),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        _userPlants[index].name, // Измененный текст
+                                        style: GoogleFonts.inika(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Растение нужно полить (150мл)', // Вы можете использовать информацию о воде из объекта _userPlants[index], если она доступна
+                                        style: GoogleFonts.inter(fontSize: 10),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20,)
+                    ],
                   );
                 }),
         ),
