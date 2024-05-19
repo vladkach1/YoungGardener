@@ -172,13 +172,24 @@ class _MainScreenState extends State<MainScreen> {
           .collection('plants')
           .where('active', isEqualTo: false)
           .get()
-          .then((QuerySnapshot querySnapshot) {
+          .then((QuerySnapshot querySnapshot) async {
+        Map<String, Plant> plantsData = await loadPlantsData();
+        List<Plant> userPlants = [];
+        for (var doc in querySnapshot.docs) {
+          var data = doc.data() as Map<String, dynamic>;
+          String plantName = data['name'];
+
+          if (plantsData.containsKey(plantName)) {
+            Plant plant = plantsData[plantName]!;
+            plant.documentId = doc.id; // Заполняем documentId
+            userPlants.add(plant);
+          }
         for (var doc in querySnapshot.docs) {
           // Проверяем, прошел ли один день с `nextReminderTime`
           Timestamp timestamp = doc['nextReminderTime'];
           DateTime nextReminderDate = timestamp.toDate();
           DateTime now = DateTime.now();
-          if (now.difference(nextReminderDate).inDays >= 1) {
+          if (now.difference(nextReminderDate).inMinutes >= 1) {
             // Активируем напоминание
             doc.reference.update({
               'active': true,
@@ -187,29 +198,58 @@ class _MainScreenState extends State<MainScreen> {
             });
           }
         }
-      }).catchError((error) {
+      }}).catchError((error) {
         print("Ошибка восстановления напоминаний: $error");
       });
     }
   }
 
-  List<String> remindList = ['Напоминание'];
+  List<Plant> remindList = [];
+
+  Future<void> CreateRemindList() async {
+        User? user = FirebaseAuth.instance.currentUser;
+
+        if (user != null) {
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('plants').where('active', isEqualTo: true)
+              .get()
+              .then((QuerySnapshot querySnapshot) async {
+            Map<String, Plant> plantsData = await loadPlantsData();
+
+            List<Plant> userPlants = [];
+            for (var doc in querySnapshot.docs) {
+              var data = doc.data() as Map<String, dynamic>;
+              String plantName = data['name'];
+
+              if (plantsData.containsKey(plantName)) {
+                Plant plant = plantsData[plantName]!;
+                plant.documentId = doc.id; // Заполняем documentId
+                userPlants.add(plant);
+              }
+            }
+            remindList = userPlants;
+          }).catchError((error) {
+            print("Error fetching user plants: $error");
+          });
+        }
+      }
   Widget _remindList() {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(left: 35),
         child: Column(
-          children: _userPlants.isEmpty
+          children: remindList.isEmpty
               ? [
                   Text('У вас нет действующих напоминаний',
                       style: TextStyle(fontSize: 16)),
                 ]
-              : List.generate(_userPlants.length, (index) {
-                  var plant = _userPlants[index]; // Это ваш объект растения
+              :  List.generate(remindList.length, (index) {
+                  var plant = remindList[index]; // Это ваш объект растения
                   // Предполагаем, что у вас есть доступ к ID документа или к самому объекту DocumentSnapshot для растения
                   var docId = plant
                       .documentId; // Это ID документа для растения в Firestore
-
                   return Slidable(
                     key: Key(plant.name),
                     startActionPane: ActionPane(
@@ -217,7 +257,7 @@ class _MainScreenState extends State<MainScreen> {
                       children: [
                         SlidableAction(
                           onPressed: (BuildContext context) {
-                            var docId = _userPlants[index].documentId;
+                            var docId = remindList[index].documentId;
                             if (docId != null) {
                               deleteReminder(docId,
                                   index); // Вызов метода для удаления напоминания
@@ -294,6 +334,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    restoreReminders();
+    CreateRemindList();
     getCurrentUsername();
     fetchAndDisplayUserPlants();
     return Scaffold(

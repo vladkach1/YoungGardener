@@ -55,6 +55,7 @@ class BottomButtons2 extends StatelessWidget {
             'timestamp':
                 FieldValue.serverTimestamp(), // Добавляем временную метку
             'active': true, // Ставим статус напоминания на активный
+             'nextReminderTime': FieldValue.serverTimestamp()
           })
           .then((value) => showSnackbar(context, 'Растение добавлено'))
           .catchError((error) {
