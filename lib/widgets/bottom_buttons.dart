@@ -66,6 +66,7 @@ class BottomButtons extends StatelessWidget {
             .then((_) => showSnackbar(context, 'Растение удалено'))
             .catchError((error) =>
                 showSnackbar(context, 'Ошибка при удалении растения: $error'));
+        Navigator.pushNamed(context, '/mainScreen');
       } else {
         showSnackbar(context, 'Растение не найдено');
       }

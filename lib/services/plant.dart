@@ -8,6 +8,7 @@ class Plant {
   final int temperature;
   final String imgUrl;
   final String description;
+  String? documentId;
 
   Plant({
     required this.name,
@@ -17,6 +18,7 @@ class Plant {
     required this.temperature,
     required this.imgUrl,
     required this.description,
+    this.documentId,
   });
 
   factory Plant.fromTxtData(String line) {

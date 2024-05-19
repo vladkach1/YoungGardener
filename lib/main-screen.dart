@@ -83,35 +83,20 @@ class _MainScreenState extends State<MainScreen> {
         Map<String, Plant> plantsData = await loadPlantsData();
 
         List<Plant> userPlants = [];
-        List<String> reminders = [];
-
         for (var doc in querySnapshot.docs) {
           var data = doc.data() as Map<String, dynamic>;
           String plantName = data['name'];
-          Timestamp? plantAddedTime = data['timestamp'] as Timestamp?;
 
-          if (plantAddedTime != null) {
-            DateTime addedTime = plantAddedTime.toDate();
-            DateTime currentTime = DateTime.now();
-
-            if (currentTime.difference(addedTime).inSeconds >= 15) {
-              // Добавьте уведомление в список reminders
-              reminders.add('Пора полить $plantName');
-            }
-
-            if (plantsData.containsKey(plantName)) {
-              Plant plant = plantsData[plantName]!;
-              userPlants.add(plant);
-            }
-          } else {
-            print('Timestamp is not available for plant: $plantName');
+          if (plantsData.containsKey(plantName)) {
+            Plant plant = plantsData[plantName]!;
+            plant.documentId = doc.id; // Заполняем documentId
+            userPlants.add(plant);
           }
         }
 
         if (mounted) {
           setState(() {
             _userPlants = userPlants;
-            remindList = reminders;
           });
         }
       }).catchError((error) {
@@ -151,6 +136,63 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed('/Search');
   }
 
+  // Метод для удаления напоминания
+  // Метод для удаления напоминания
+  void deleteReminder(String docId, int index) async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('plants')
+          .doc(docId);
+
+      docRef.update({
+        'active': false, // Деактивируем напоминание
+      }).then((_) {
+        print("Напоминание успешно удалено");
+        setState(() {
+          // Удалить растение из списка в UI
+          remindList.removeAt(index);
+        });
+      }).catchError((error) {
+        print("Ошибка при удалении напоминания: $error");
+      });
+    }
+  }
+
+// Метод для повторного появления напоминания через день
+  void restoreReminders() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Получаем все "неактивные" напоминания
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('plants')
+          .where('active', isEqualTo: false)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        for (var doc in querySnapshot.docs) {
+          // Проверяем, прошел ли один день с `nextReminderTime`
+          Timestamp timestamp = doc['nextReminderTime'];
+          DateTime nextReminderDate = timestamp.toDate();
+          DateTime now = DateTime.now();
+          if (now.difference(nextReminderDate).inDays >= 1) {
+            // Активируем напоминание
+            doc.reference.update({
+              'active': true,
+              'nextReminderTime':
+                  FieldValue.serverTimestamp() // устанавливаем новый таймер
+            });
+          }
+        }
+      }).catchError((error) {
+        print("Ошибка восстановления напоминаний: $error");
+      });
+    }
+  }
+
   List<String> remindList = ['Напоминание'];
   Widget _remindList() {
     return SliverToBoxAdapter(
@@ -159,115 +201,39 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           children: _userPlants.isEmpty
               ? [
-                  // Если список пуст, выводим сообщение
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    decoration: BoxDecoration(
-                      color: Color(0xffC7C4C4),
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 2,
-                          blurRadius: 5,
-                          offset: Offset(0, 3),
+                  Text('У вас нет действующих напоминаний',
+                      style: TextStyle(fontSize: 16)),
+                ]
+              : List.generate(_userPlants.length, (index) {
+                  var plant = _userPlants[index]; // Это ваш объект растения
+                  // Предполагаем, что у вас есть доступ к ID документа или к самому объекту DocumentSnapshot для растения
+                  var docId = plant
+                      .documentId; // Это ID документа для растения в Firestore
+
+                  return Slidable(
+                    key: Key(plant.name),
+                    startActionPane: ActionPane(
+                      motion: DrawerMotion(),
+                      children: [
+                        SlidableAction(
+                          onPressed: (BuildContext context) {
+                            var docId = _userPlants[index].documentId;
+                            if (docId != null) {
+                              deleteReminder(docId,
+                                  index); // Вызов метода для удаления напоминания
+                            }
+                          },
+                          backgroundColor: Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Удалить',
                         ),
                       ],
                     ),
-                    child: Text(
-                      'У вас нет действующих напоминаний',
-                      style: TextStyle(fontSize: 16),
+                    child: ListTile(
+                      title: Text(plant.name),
+                      subtitle: Text('Напоминание активно'),
                     ),
-                  ),
-                ]
-              : List.generate(_userPlants.length, (index) {
-                  return Column(
-                    children: [
-                      Slidable(
-                        startActionPane: ActionPane(
-                          extentRatio: 0.15,
-                          closeThreshold: 0.9,
-                          motion: BehindMotion(),
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                // Удаление напоминания из списка при нажатии зеленой кнопки
-                                setState(() {
-                                  _userPlants.removeAt(index);
-                                });
-                              },
-                              child: Container(
-                                child:
-                                    SvgPicture.asset('assets/icons/checkmark.svg'),
-                                padding: EdgeInsets.only(
-                                  top: 20,
-                                  bottom: 20,
-                                  left: 9,
-                                  right: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Color(0xff54AD45),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding:
-                                  EdgeInsets.symmetric(vertical: 5, horizontal: 33),
-                              margin: EdgeInsets.only(right: 20),
-                              decoration: BoxDecoration(
-                                color: Color(0xffC7C4C4),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      SvgPicture.asset('assets/icons/plant2.svg'),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _userPlants[index].name, // Измененный текст
-                                        style: GoogleFonts.inika(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        'Растение нужно полить (150мл)', // Вы можете использовать информацию о воде из объекта _userPlants[index], если она доступна
-                                        style: GoogleFonts.inter(fontSize: 10),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20,)
-                    ],
                   );
                 }),
         ),
@@ -461,7 +427,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Align(
                   alignment: Alignment(-1, 0),
                   child: Text(
-                    (index + 1).toString() + ' ' + _userPlants[index].name,
+                    (index + 1).toString() + '   ' + _userPlants[index].name,
                     style: GoogleFonts.inder(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
