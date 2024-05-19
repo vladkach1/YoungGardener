@@ -171,7 +171,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            itemCount: ListPlants.length,
+            itemCount: 200,
           ),
         ],
       ),
