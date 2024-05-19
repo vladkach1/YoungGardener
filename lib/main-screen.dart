@@ -119,6 +119,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void GetListOfPlants() async {
+    ListPlants.clear();
     try {
       List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
       plants.forEach((plant) {
@@ -131,7 +132,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _AddPlant() async {
-    if (ListPlants.length == 0) {
+    if (ListPlants.length !=200) {
       GetListOfPlants();
     }
     Navigator.of(context).pushNamed('/Search');

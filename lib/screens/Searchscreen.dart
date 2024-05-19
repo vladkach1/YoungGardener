@@ -20,7 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void initState() {
     super.initState();
     initialization();
-
+    allPlants.clear();
     allPlants.addAll(ListPlants);
   }
 
@@ -90,6 +90,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(allPlants.length);
+    print(ListPlants.length);
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -127,6 +129,9 @@ class _SearchScreenState extends State<SearchScreen> {
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              if (ListPlants.length !=200) {
+                GetListOfPlants();
+              }
               Navigator.of(context).pushNamed('/');
             },
           ),
@@ -146,7 +151,10 @@ class _SearchScreenState extends State<SearchScreen> {
               height: 53,
               margin: EdgeInsets.only(left: 35, top: 10, right: 35),
               child: ElevatedButton(
-                onPressed: () => {
+                onPressed: () {
+    if (ListPlants.length !=200) {
+    GetListOfPlants();
+    };
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -160,7 +168,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         imgUrl: ListPlants[index].imgUrl,
                       ),
                     ),
-                  ),
+                  );
                 },
                 child: Align(
                   alignment: Alignment(-1, 0),
@@ -171,7 +179,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
-            itemCount: 200,
+            itemCount: ListPlants.length,
           ),
         ],
       ),

@@ -6,6 +6,19 @@ import 'package:young_gardener/widgets/additional_information_on_water_and_sun.d
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../services/plant.dart';
+import 'Searchscreen.dart';
+void GetListOfPlants() async {
+  try {
+    List<Plant> plants = await loadPlantsFromFile('assets/plants.txt');
+    plants.forEach((plant) {
+      ListPlants.add(plant);
+      print(plant.name);
+    });
+  } catch (e) {
+    print(e.toString());
+  }
+}
 class PlantInfoScreen2 extends StatefulWidget {
   static const infoScreen = "/infoScreen2";
 
@@ -106,6 +119,10 @@ class _PlantInfoScreenState2 extends State<PlantInfoScreen2> {
           child: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              ListPlants.clear();
+              if (ListPlants.length !=200) {
+                GetListOfPlants();
+              }
               Navigator.of(context).pushNamed('/Search');
             },
           ),
