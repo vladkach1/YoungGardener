@@ -12,15 +12,21 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'services/User.dart';
 import 'services/notification_manager.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
-//СДЕЛАЙ В ИНФЕ АППБАР МЕНЬШЕ И СО СТРОКОЙ ПОИСКА РАЗБЕРИСЬ(ТОЖЕ САМОЕ СКОРЕЕ ВСЕГО НАДО СДЕЛАТЬ В ИНФЕ С ПЕТРУХОЙ)
-//СДЕЛАТЬ ЧТОБЫ В СТРОКАХ ВВОДА ТЕКСТ НЕ ДОХОДИЛ ДО КОНЦА КОНТЕЙНЕРА
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print('Handling a background message: ${message.messageId}');
+}
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await NotificationManager.initializeNotifications();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
@@ -28,8 +34,26 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // Инициализация настроек уведомлений
+  void setupNotifications() {
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      if (message != null) {
+        // Обработка нажатия на уведомление, когда приложение было закрыто
+      }
+    });
+
+    FirebaseMessaging.onMessage.listen((message) {
+      // Обработка приходящих уведомлений, когда приложение открыто
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      // Обработка нажатия на уведомление, когда приложение находится в фоне
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    setupNotifications();
     FlutterNativeSplash.remove();
     return StreamProvider<UserYG?>.value(
       value: AuthService().user,
